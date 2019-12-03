@@ -25,6 +25,7 @@ import {
   FormControl,
   InputGroup
 } from "react-bootstrap";
+import Logout from 'components/Logout/Logout';
 
 class HeaderLinks extends Component {
   render() {
@@ -87,40 +88,9 @@ class HeaderLinks extends Component {
             <MenuItem eventKey={3.4}>Notification 4</MenuItem>
             <MenuItem eventKey={3.5}>Another notifications</MenuItem>
           </NavDropdown>
-          <NavDropdown
-            eventKey={4}
-            title={
-              <div>
-                <i className="fa fa-list" />
-                <p className="hidden-md hidden-lg">
-                  More
-                  <b className="caret" />
-                </p>
-              </div>
-            }
-            noCaret
-            id="basic-nav-dropdown-3"
-            bsClass="dropdown-with-icons dropdown"
-          >
-            <MenuItem eventKey={4.1}>
-              <i className="pe-7s-mail" /> Messages
-            </MenuItem>
-            <MenuItem eventKey={4.2}>
-              <i className="pe-7s-help1" /> Help Center
-            </MenuItem>
-            <MenuItem eventKey={4.3}>
-              <i className="pe-7s-tools" /> Settings
-            </MenuItem>
-            <MenuItem divider />
-            <MenuItem eventKey={4.4}>
-              <i className="pe-7s-lock" /> Lock Screen
-            </MenuItem>
-            <MenuItem eventKey={4.5}>
-              <div className="text-danger">
-                <i className="pe-7s-close-circle" /> Log out
-              </div>
-            </MenuItem>
-          </NavDropdown>
+          <NavItem eventKey={3} href="#">
+            <Logout/>
+          </NavItem>
         </Nav>
       </div>
     );
