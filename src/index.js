@@ -16,7 +16,6 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
-import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import App from 'App';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "assets/sass/light-bootstrap-dashboard-pro-react.scss?v=1.2.0";

@@ -40,6 +40,7 @@ import UserPage from "views/Pages/UserPage.jsx";
 import LoginPage from "views/Pages/LoginPage.jsx";
 import RegisterPage from "views/Pages/RegisterPage.jsx";
 import LockScreenPage from "views/Pages/LockScreenPage.jsx";
+import Subject from "views/Subject/Subject.js";
 
 var dashboardRoutes = [
   {
@@ -254,7 +255,14 @@ var dashboardRoutes = [
         component: LockScreenPage
       }
     ]
-  }
+  },
+  {
+    path: "/subject",
+    layout: "/admin",
+    name: "Subject",
+    icon: "pe-7s-user",
+    component: Subject
+  },
 ];
 
 export const accountRoutes = [

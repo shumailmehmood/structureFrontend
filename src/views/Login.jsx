@@ -20,8 +20,7 @@ import {
   Grid,
   Col,
   FormGroup,
-  ControlLabel,
-  FormControl,
+  ControlLabel,  
   Row,
   Form
 } from "react-bootstrap";
@@ -55,7 +54,6 @@ function Login(props) {
 
   }
 
-  console.log(authTokens)
   return (
     authTokens && authTokens.access_token ? <Redirect to="/" /> :
       <div className="content">

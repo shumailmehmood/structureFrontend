@@ -25,7 +25,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.jsx";
 
 // image for avatar in Sidebar
-import avatar from "assets/img/default-avatar.png";
+import avatar from "assets/img/new_logo.png";
 // logo for sidebar
 import logo from "logo.svg";
 
@@ -122,11 +122,11 @@ class Sidebar extends Component {
                 <p>{prop.name}</p>
               </>
             ) : (
-              <>
-                <span className="sidebar-mini">{prop.mini}</span>
-                <span className="sidebar-normal">{prop.name}</span>
-              </>
-            )}
+                <>
+                  <span className="sidebar-mini">{prop.mini}</span>
+                  <span className="sidebar-normal">{prop.name}</span>
+                </>
+              )}
           </NavLink>
         </li>
       );
@@ -180,11 +180,11 @@ class Sidebar extends Component {
             style={{ backgroundImage: "url(" + this.props.image + ")" }}
           />
         ) : (
-          ""
-        )}
+            ""
+          )}
         <div className="logo">
           <a
-            href="https://www.creative-tim.com?ref=lbdpr-sidebar"
+            href="/"
             className="simple-text logo-mini"
             target="_blank"
           >
@@ -193,11 +193,11 @@ class Sidebar extends Component {
             </div>
           </a>
           <a
-            href="https://www.creative-tim.com?ref=lbdpr-sidebar"
+            href="/"
             className="simple-text logo-normal"
             target="_blank"
           >
-            Creative Tim
+           Quiz App
           </a>
         </div>
         <div className="sidebar-wrapper" ref="sidebarWrapper">
@@ -214,7 +214,7 @@ class Sidebar extends Component {
                 }}
               >
                 <span>
-                  Tania Andrew
+                 Admin
                   <b
                     className={
                       this.state.openAvatar ? "caret rotate-180" : "caret"
@@ -223,23 +223,10 @@ class Sidebar extends Component {
                 </span>
               </a>
               <Collapse in={this.state.openAvatar}>
-                <ul className="nav">
-                  <li>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <span className="sidebar-mini">MP</span>
-                      <span className="sidebar-normal">My Profile</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <span className="sidebar-mini">EP</span>
-                      <span className="sidebar-normal">Edit Profile</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <span className="sidebar-mini">S</span>
-                      <span className="sidebar-normal">Settings</span>
+                <ul className="nav">             
+                  <li onClick={() => {localStorage.clear(); window.location.reload();}}>
+                    <a>
+                      <span className="sidebar-normal"><i className="fa fa-sign-out" />Log Out</span>
                     </a>
                   </li>
                 </ul>
