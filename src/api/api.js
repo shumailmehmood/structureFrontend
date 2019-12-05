@@ -5,10 +5,10 @@ import resolve from './resolve';
 let apiBaseUrl = process.env.REACT_APP_API_BASEURL;
 
 
-const testAuth = async () => {
+export const testAuth = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/profile`).then(res => res.data));
 }
-const login = async (email, password) => {
+export const login = async (email, password) => {
     return await resolve(axios.post(`${apiBaseUrl}/api/auth/login`, {
         user: {
             email,
@@ -17,11 +17,9 @@ const login = async (email, password) => {
     }).then(res => res.data));
 }
 
-
-
-export {
-    testAuth,
-  
-    login
-
+export const createSubject = async (name) => {
+    return await resolve(axios.post(`${apiBaseUrl}/api/subject`, {
+        obj: {name}
+    }).then(res => res.data));
 }
+
