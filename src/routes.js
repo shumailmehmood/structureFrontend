@@ -41,14 +41,14 @@ import LoginPage from "views/Pages/LoginPage.jsx";
 import RegisterPage from "views/Pages/RegisterPage.jsx";
 import LockScreenPage from "views/Pages/LockScreenPage.jsx";
 import Subject from "views/Subject/Subject.js";
-
+import CreateQuiz from "./views/CreateQuiz";
 var dashboardRoutes = [
   {
     path: "/dashboard",
     layout: "/admin",
     name: "Dashboard",
     icon: "pe-7s-graph",
-    component: Dashboard
+    component: CreateQuiz
   },
   {
     collapse: true,
@@ -263,6 +263,7 @@ var dashboardRoutes = [
     icon: "pe-7s-user",
     component: Subject
   },
+  
 ];
 
 export const accountRoutes = [

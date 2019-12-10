@@ -47,7 +47,7 @@ function Login(props) {
     let response = await login(values.email, values.password);
     console.log(response);
     if (response.error) {
-      setServerError(response.error.response.data.message);
+      setServerError(response.error.message);
     } else {
       setAuthTokens({ access_token: response.data.user.token });
     }
