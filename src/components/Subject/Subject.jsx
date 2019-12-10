@@ -1,25 +1,25 @@
 import React, { useState } from "react";
 import useForm from "react-hook-form";
-import Button from "../../components/CustomButton/CustomButton.jsx";
+import Button from "../CustomButton/CustomButton.jsx";
 
 import { Grid, Col, FormGroup, ControlLabel, Row, Form } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import { createSubject } from '../../api/api';
 
 
-const Subject = () => {
-    const [serverError, setServerError] = useState();
+const Subject = () => {    
+    const [spinner, setSpinner] = useState(false);
     const { handleSubmit, register, errors } = useForm();
 
 
-    const onSubmit = async (values) => {
-        setServerError(null);
-        let response = await createSubject(values.name);
-        console.log(response);
+    const onSubmit = async (values) => {        
+        setSpinner(true)
+        let response = await createSubject(values.name);        
         if (response.error) {
-            setServerError(response.error.response.data.message);
+            setSpinner(false)
         } else {
             alert('Success')
+            setSpinner(false)
         }
 
     }
@@ -30,16 +30,14 @@ const Subject = () => {
                     <Col md={6} >
                         <Col  >
                             <Card
-                                title="Subject"
+                                title="Create Subject"
                                 ctAllIcons
                                 content={
                                     <Form onSubmit={handleSubmit(onSubmit)}>
-                                        <small className="text-danger">{serverError || null}</small>
-                                  
                                         <FormGroup
                                             validationState={errors.name && errors.name.message ? "error" : "success"}
                                         >
-                                            <ControlLabel>Password</ControlLabel>
+                                            <ControlLabel>Subject</ControlLabel>
                                             <input
                                                 name="name"
                                                 ref={register({
@@ -50,9 +48,12 @@ const Subject = () => {
                                                 className="form-control"
                                             />
 
-                                            {(errors.password && errors.password.message) && <small className="text-danger">{errors.password && errors.password.message}</small>}
-                                        </FormGroup>
-                                        <Button type="submit">Submit</Button>
+                                            {(errors.name && errors.name.message) && <small className="text-danger">{errors.name && errors.name.message}</small>}
+                                        </FormGroup>                                        
+                                        <Button style={{ backgroundColor: '#0f4b5f' }} disabled={spinner} type="submit" fill wd>
+                                            {spinner ? 'SUBMITTING....' : 'Proceed'}
+                                            <i className={spinner ? 'fa fa-spin fa-spinner' : null} />
+                                        </Button>
                                     </Form>
                                 } />
                         </Col>

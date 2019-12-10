@@ -23,10 +23,43 @@ export const login = async (email, password) => {
         console.log(err)
     }
 }
-
+//////////////////////////////SUBJECT//////////////////////////////////////////////
 export const createSubject = async (name) => {
-    return await resolve(axios.post(`${apiBaseUrl}/api/subject`, {
-        obj: {name}
+    return await resolve(axios.post(`${apiBaseUrl}/api/createSubject`, {
+        name
     }).then(res => res.data));
 }
 
+export const getSubjects = async () => {
+    return await resolve(axios.get(`${apiBaseUrl}/api/getSubjects`)
+        .then(res => res.data));
+}
+export const getSpecificSubject = async (subjectId) => {
+    return await resolve(axios.get(`${apiBaseUrl}/api/getSubjects?subjectId=${subjectId}`)
+        .then(res => res.data));
+}
+
+export const editSubject = async (id, name) => {
+    return await resolve(axios.put(`${apiBaseUrl}/api/editSubject/${id}`, { name })
+        .then(res => res.data));
+}
+
+export const deactivateSubject = async (id, name) => {
+    return await resolve(axios.put(`${apiBaseUrl}/api/deactivateSubject/${id}`)
+        .then(res => res.data));
+}
+//////////////////////////////VIDEO//////////////////////////////////////////////
+export const getVideoDocuments = async (subjectId) => {
+    return await resolve(axios.get(`${apiBaseUrl}/api/getVideoDocuments?subjectId=${subjectId}`)
+        .then(res => res.data));
+}
+export const createVideoDocument = async (subjectId, name, videoUrl, thumbUrl) => {
+    return await resolve(axios.post(`${apiBaseUrl}/api/createVideoDocument`, {
+        subjectId, name, videoUrl, thumbUrl
+    }).then(res => res.data));
+}
+export const editVideoDocument = async (id, name, videoUrl, thumbUrl) => {
+    return await resolve(axios.put(`${apiBaseUrl}/api/editVideoDocument/${id}`, {
+        name, videoUrl, thumbUrl
+    }).then(res => res.data));
+}

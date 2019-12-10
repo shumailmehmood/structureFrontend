@@ -48,6 +48,9 @@ class Sidebar extends Component {
   getCollapseStates = routes => {
     let initialState = {};
     routes.map((prop, key) => {
+      if (prop.hideself ) {
+        return null
+      }
       if (prop.collapse) {
         initialState = {
           [prop.state]: this.getCollapseInitialState(prop.views),
@@ -77,6 +80,9 @@ class Sidebar extends Component {
     return routes.map((prop, key) => {
       if (prop.redirect) {
         return null;
+      }
+      if (prop.hideself ) {
+        return null
       }
       if (prop.collapse) {
         var st = {};
