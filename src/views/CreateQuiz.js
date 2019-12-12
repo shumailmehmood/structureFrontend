@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row, Button } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import Card from '../components/Card/Card';
 import CreateFrom from '../components/CreateQuizForm/CreateQuizForm';
 
@@ -9,12 +9,6 @@ const CreateQuiz = (props) => {
             <Card
                 content={
                     <div>
-                        <Row>
-                            <Col md={8}></Col>
-                            <Col md={4}><Button>Add a Question</Button></Col>
-
-                        </Row>
-                        <br />
                         <Row>
                             <Col md={2}></Col>
                             <Col md={8}><CreateFrom /></Col>

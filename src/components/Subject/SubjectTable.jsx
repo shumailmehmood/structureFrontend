@@ -4,16 +4,16 @@ import SubjectEditModal from "./SubjectEditModal";
 import "react-table/react-table.css";
 import { deactivateSubject, getSubjects } from '../../api/api';
 import Card from "components/Card/Card.jsx";
-import Switch from "react-switch"; 
+import Switch from "react-switch";
 import Button from "../CustomButton/CustomButton.jsx";
-import {withRouter} from 'react-router'
+import { withRouter } from 'react-router'
 
 const SubjectTable = (prop) => {
     const [data, setData] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
     const [doc, setDoc] = useState();
     const [loading, setLoading] = useState(false);
-    
+
     async function anyNameFunction() {
         setLoading(true)
         let response = await getSubjects();
@@ -25,7 +25,10 @@ const SubjectTable = (prop) => {
             setLoading(false)
         }
     }
-    const handleClickButton = (val) => { prop.history.push(`/admin/subjectmanagement/QuizManagement?id=${val}`);}
+    const handleClickButton = (val, subject) => {
+
+        prop.history.push(`/admin/subjectmanagement/QuizManagement?id=${val}`);
+    }
     useEffect(() => {
 
         // Execute the created function directly
@@ -56,12 +59,16 @@ const SubjectTable = (prop) => {
             Header: "Name",
             accessor: "id",
             Cell: props =>
-     (<Button className='btn-fill btn-wd btn btn-warning'onClick={()=>handleClickButton(props.value)}>{props.original.name}</Button>)
+                (
+                    <Button className='btn-fill btn-wd btn btn-warning'
+                        onClick={() => handleClickButton(props.value, props.original)}
+                    >{props.original.name}
+                    </Button>)
         },
         {
             Header: "Created At",
             accessor: "createdAt",
-            width:95
+            width: 95
         },
         {
             Header: "Action",

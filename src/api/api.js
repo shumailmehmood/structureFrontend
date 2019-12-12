@@ -9,8 +9,8 @@ export const testAuth = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/profile`).then(res => res.data));
 }
 export const login = async (email, password) => {
-    
-    try{
+
+    try {
 
         return await resolve(axios.post(`${apiBaseUrl}/api/auth/login`, {
             user: {
@@ -19,7 +19,7 @@ export const login = async (email, password) => {
             }
         }).then(res => res.data))
     }
-    catch(err){
+    catch (err) {
         console.log(err)
     }
 }
@@ -62,4 +62,8 @@ export const editVideoDocument = async (id, name, videoUrl, thumbUrl) => {
     return await resolve(axios.put(`${apiBaseUrl}/api/editVideoDocument/${id}`, {
         name, videoUrl, thumbUrl
     }).then(res => res.data));
+}
+export const createQuiz = async (data) => {
+    return await resolve(axios.post(`${apiBaseUrl}/api/createQuiz`, data)
+        .then(res => res.data));
 }
