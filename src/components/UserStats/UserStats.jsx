@@ -6,12 +6,15 @@ import Card from "components/Card/Card.jsx";
 import { Grid, Row, Col } from "react-bootstrap";
 import Select from 'react-select';
 import _ from 'lodash';
-const UserStats = (prop) => {
+
+import {table_data} from "variables/Variables.jsx";
+const UserStats = () => {
     const [data, setData] = useState([]);
     const [options, setOptions] = useState();
     const [loading, setLoading] = useState(false);
 
     const [value, setValue] = useState()
+    const [value2, setValue2] = useState({value:'All', label: 'All'})
     
     async function anyNameFunction() {
         setLoading(true)
@@ -44,15 +47,20 @@ const UserStats = (prop) => {
         else anyNameFunction();
     }, [value]);
 
-    function onChangerole(value) {
+    function onChangerole(value) {        
         setValue(value.value)
+        setValue2(value)
     }
 
     const columns = [
         {
-            Header: "Name",
+            Header: "Country",
             accessor: 'name',
-            sortable: false
+            sortable: false,
+            Cell: props => <div className="flag">
+            <img src={table_data[props.row._index].flag} alt="us_flag" />
+            
+          </div>
 
         },
         {
@@ -83,7 +91,7 @@ const UserStats = (prop) => {
                     <Col md={2}>
                         <Select
                             onChange={onChangerole}
-                            value={value}
+                            value={value2}
                             options={options}
                         />
                     </Col>

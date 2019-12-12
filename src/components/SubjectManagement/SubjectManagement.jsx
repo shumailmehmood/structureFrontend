@@ -6,7 +6,6 @@ import Card from "components/Card/Card.jsx";
 import Button from "../CustomButton/CustomButton.jsx";
 
 const SubjectManagement = () => {
-    console.log('SubjectManagement')
     const [data] = useState(['Easy','Medium','Hard','Expert']);       
    
     const columns = [
