@@ -67,3 +67,16 @@ export const createQuiz = async (data) => {
     return await resolve(axios.post(`${apiBaseUrl}/api/createQuiz`, data)
         .then(res => res.data));
 }
+export const viewQuiz = async (params) => {
+    return await resolve(axios.get(`${apiBaseUrl}/api/getQuiz?page=${params.page}&limit=${params.limit}&level=${params.level}&subject=${params.subject}`)
+        .then(res => res.data));
+}
+export const removeQuiz = async (params) => {
+    return await resolve(axios.get(`${apiBaseUrl}/api/deleteQuizQuestion?level=${params.level}&subjectId=${params.subject}&questionId=${params.id}`)
+        .then(res => res.data));
+}
+export const editQuiz = async (params, body) => {
+    return await resolve(axios.post(`${apiBaseUrl}/api/editQuiz?level=${params.level}&subjectId=${params.subject}&questionId=${params.id}`, body)
+        .then(res => res.data));
+}
+

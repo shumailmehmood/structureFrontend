@@ -24,10 +24,7 @@ const SubjectManagement = (prop) => {
                         onClick={() => {
                             prop.history.push({
                                 pathname: '/admin/createquiz',
-                                state: {
-                                    level: props.original,
-                                    subject: querystring.parse(prop.location.search).id
-                                }
+                                search: `?level=${props.original}&id=${querystring.parse(prop.location.search).id}`
                             })
                         }}
                         bsStyle="danger"
@@ -35,6 +32,19 @@ const SubjectManagement = (prop) => {
                         icon
                     >
                         <i className="fa fa-plus" />
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            prop.history.push({
+                                pathname: '/admin/viewquiz',
+                                search: `?level=${props.original}&id=${querystring.parse(prop.location.search).id}`
+                            })
+                        }}
+                        bsStyle="danger"
+                        simple
+                        icon
+                    >
+                        <i className="fa fa-eye" />
                     </Button>
                 </div>
             )

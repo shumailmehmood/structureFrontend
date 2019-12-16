@@ -5,6 +5,8 @@ import SubjectView from "views/SubjectView/SubjectView.js";
 import SubjectManagementView from "views/SubjectManagementView/SubjectManagementView";
 import UserStatsView from "views/UserStatsView/UserStatsView";
 import Quiz from './views/CreateQuiz';
+import ViewQuiz from './components/ViewQuiz/ViewQuiz';
+
 var dashboardRoutes = [
   {
     path: "/dashboard",
@@ -36,7 +38,15 @@ var dashboardRoutes = [
   {
     path: "/createquiz",
     layout: "/admin",
+    name: "Create Quiz",
     component: Quiz,
+    hideself: true
+  },
+  {
+    path: "/viewquiz",
+    layout: "/admin",
+    name: "View Quiz",
+    component: ViewQuiz,
     hideself: true
   },
 
