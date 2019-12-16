@@ -36,7 +36,7 @@ function App(props) {
             <Switch>
                 <PrivateRoute path="/admin" component={props => <AdminLayout {...props} />} />
                 <Route path="/account" component={props => <AccountLayout {...props} />} />
-                <Redirect from="/" to="/admin/dashboard" />
+                <Redirect from="/" to="/admin/UserStatsView" />
             </Switch>
         </BrowserRouter>
     </AuthContext.Provider>

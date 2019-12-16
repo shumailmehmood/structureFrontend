@@ -203,7 +203,7 @@ class Sidebar extends Component {
             className="simple-text logo-normal"
             target="_blank"
           >
-           Quiz App
+           Quizhoo
           </a>
         </div>
         <div className="sidebar-wrapper" ref="sidebarWrapper">

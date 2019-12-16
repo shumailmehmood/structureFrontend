@@ -5,13 +5,15 @@ import SubjectView from "views/SubjectView/SubjectView.js";
 import SubjectManagementView from "views/SubjectManagementView/SubjectManagementView";
 import UserStatsView from "views/UserStatsView/UserStatsView";
 import Quiz from './views/CreateQuiz';
+import ViewQuiz from './components/ViewQuiz/ViewQuiz';
+
 var dashboardRoutes = [
   {
-    path: "/dashboard",
+    path: "/UserStatsView",
     layout: "/admin",
-    name: "Dashboard",
-    icon: "pe-7s-graph",
-    component: Dashboard
+    name: "User Stats View",
+    icon: "pe-7s-user",
+    component: UserStatsView
   },
   {
     path: "/subject",
@@ -20,13 +22,13 @@ var dashboardRoutes = [
     icon: "pe-7s-date",
     component: SubjectView
   },
-  {
-    path: "/UserStatsView",
-    layout: "/admin",
-    name: "User Stats View",
-    icon: "pe-7s-user",
-    component: UserStatsView
-  },
+  // {
+  //   path: "/UserStatsView",
+  //   layout: "/admin",
+  //   name: "User Stats View",
+  //   icon: "pe-7s-user",
+  //   component: UserStatsView
+  // },
   {
     path: "/subjectmanagement",
     layout: "/admin",
@@ -36,7 +38,15 @@ var dashboardRoutes = [
   {
     path: "/createquiz",
     layout: "/admin",
+    name: "Create Quiz",
     component: Quiz,
+    hideself: true
+  },
+  {
+    path: "/viewquiz",
+    layout: "/admin",
+    name: "View Quiz",
+    component: ViewQuiz,
     hideself: true
   },
 

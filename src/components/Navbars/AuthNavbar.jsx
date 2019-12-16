@@ -49,7 +49,7 @@ class PagesHeader extends Component {
       >
         <Navbar.Header>
           <Navbar.Brand>
-            <NavLink to={"/dashboard"} className="nav-link">
+            <NavLink to={"/UserStatsView"} className="nav-link">
               {this.state.width > 429
                 ? "Light Bootstrap Dashboard Pro React"
                 : "LBD PRO React"}
@@ -60,7 +60,7 @@ class PagesHeader extends Component {
         <Navbar.Collapse>
           <ul className="nav navbar-nav navbar-right">
             <li>
-              <NavLink to={"/dashboard"} className="nav-link">
+              <NavLink to={"/UserStatsView"} className="nav-link">
                 <i className="fa fa-th-list" />
                 <p>Dashboard</p>
               </NavLink>

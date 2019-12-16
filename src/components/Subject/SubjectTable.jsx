@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactTable from "react-table";
 import SubjectEditModal from "./SubjectEditModal";
+import SubjectAddModal from "./Subject";
 import "react-table/react-table.css";
 import { deactivateSubject, getSubjects } from '../../api/api';
 import Card from "components/Card/Card.jsx";
@@ -11,6 +12,7 @@ import moment from 'moment'
 const SubjectTable = (prop) => {
     const [data, setData] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
+    const [showAdd, setshowAdd] = useState(false);
     const [doc, setDoc] = useState();
     const [loading, setLoading] = useState(false);
 
@@ -42,6 +44,14 @@ const SubjectTable = (prop) => {
     }
     function handleClose() {
         setShowEdit(false)
+        anyNameFunction();
+    }
+    function handleAddEdit() {
+        setshowAdd(true);
+        console.log(showAdd)
+    }
+    function handleAddClose() {
+        setshowAdd(false)
         anyNameFunction();
     }
     async function changeStatus(id) {
@@ -96,17 +106,23 @@ const SubjectTable = (prop) => {
     return (
         <div>
             {showEdit ? <SubjectEditModal handleClose={handleClose} show={showEdit} doc={doc} /> : ''}
+            {showAdd ? <SubjectAddModal handleClose={handleAddClose} show={showAdd} /> : ''}
             <Card
                 ctAllIcons
                 content={
-                    <ReactTable
-                        data={data}
-                        columns={columns}
-                        loading={loading}
-                        defaultPageSize={10}
-                        className="-striped -highlight"
-                    >
-                    </ReactTable>
+                    <div>
+                        <Button style={{marginBottom:"10"}} onClick={() => { handleAddEdit() }} className='btn-fill btn-wd btn btn-warning'>
+                            Add Subject
+                        </Button>
+                        <ReactTable
+                            data={data}
+                            columns={columns}
+                            loading={loading}
+                            defaultPageSize={10}
+                            className="-striped -highlight"
+                        >
+                        </ReactTable>
+                    </div>
                 } />
         </div>
     );
