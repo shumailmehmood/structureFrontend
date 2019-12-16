@@ -2,19 +2,26 @@
 import axios from 'axios';
 import resolve from './resolve';
 
-let apiBaseUrl = process.env.REACT_APP_API_BASEURL;
+let apiBaseUrl = 'http://172.16.7.133:3001';
 
 
 export const testAuth = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/profile`).then(res => res.data));
 }
 export const login = async (email, password) => {
-    return await resolve(axios.post(`${apiBaseUrl}/api/auth/login`, {
-        user: {
-            email,
-            password
-        }
-    }).then(res => res.data));
+
+    try {
+
+        return await resolve(axios.post(`${apiBaseUrl}/api/auth/login`, {
+            user: {
+                email,
+                password
+            }
+        }).then(res => res.data))
+    }
+    catch (err) {
+        console.log(err)
+    }
 }
 //////////////////////////////SUBJECT//////////////////////////////////////////////
 export const createSubject = async (name) => {
@@ -55,4 +62,8 @@ export const editVideoDocument = async (id, name, videoUrl, thumbUrl) => {
     return await resolve(axios.put(`${apiBaseUrl}/api/editVideoDocument/${id}`, {
         name, videoUrl, thumbUrl
     }).then(res => res.data));
+}
+export const createQuiz = async (data) => {
+    return await resolve(axios.post(`${apiBaseUrl}/api/createQuiz`, data)
+        .then(res => res.data));
 }

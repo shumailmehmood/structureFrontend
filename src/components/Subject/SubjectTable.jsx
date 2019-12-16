@@ -25,7 +25,10 @@ const SubjectTable = (prop) => {
             setLoading(false)
         }
     }
-    const handleClickButton = (val) => { prop.history.push(`/admin/subjectmanagement/QuizManagement?id=${val}`); }
+    const handleClickButton = (val, subject) => {
+
+        prop.history.push(`/admin/subjectmanagement/QuizManagement?id=${val}`);
+    }
     useEffect(() => {
 
         // Execute the created function directly
@@ -56,7 +59,11 @@ const SubjectTable = (prop) => {
             Header: "Name",
             accessor: "id",
             Cell: props =>
-                (<Button className='btn-fill btn-wd btn btn-warning' onClick={() => handleClickButton(props.value)}>{props.original.name}</Button>)
+                (
+                    <Button className='btn-fill btn-wd btn btn-warning'
+                        onClick={() => handleClickButton(props.value, props.original)}
+                    >{props.original.name}
+                    </Button>)
         },
         {
             Header: "Created At",

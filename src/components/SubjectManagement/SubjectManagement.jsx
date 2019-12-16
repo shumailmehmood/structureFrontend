@@ -2,45 +2,52 @@ import React, { useState } from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Card from "components/Card/Card.jsx";
-
+import querystring from 'query-string';
 import Button from "../CustomButton/CustomButton.jsx";
-
-const SubjectManagement = () => {
-    const [data] = useState(['Easy','Medium','Hard','Expert']);       
-   
+import { withRouter } from "react-router-dom";
+const SubjectManagement = (prop) => {
+    const [data] = useState(['Easy', 'Medium', 'Hard', 'Expert']);
     const columns = [
         {
             Header: "Level",
-            accessor: prop=>{return prop},
-            id:'level',
-            sortable:false
+            accessor: prop => { return prop },
+            id: 'level',
+            sortable: false
         },
         {
             Header: "Action",
             accessor: "id",
-            sortable:false,
+            sortable: false,
             Cell: props => (
                 <div className="actions-right">
                     <Button
-                        onClick={() => { }}
+                        onClick={() => {
+                            prop.history.push({
+                                pathname: '/admin/createquiz',
+                                state: {
+                                    level: props.original,
+                                    subject: querystring.parse(prop.location.search).id
+                                }
+                            })
+                        }}
                         bsStyle="danger"
                         simple
                         icon
                     >
                         <i className="fa fa-plus" />
-                    </Button>                   
+                    </Button>
                 </div>
             )
         }
     ]
     return (
-        <div>          
+        <div>
             <Card
                 ctAllIcons
                 content={
                     <ReactTable
                         data={data}
-                        columns={columns}                        
+                        columns={columns}
                         defaultPageSize={10}
                         className="-striped -highlight"
                     >
@@ -50,7 +57,6 @@ const SubjectManagement = () => {
     );
 };
 
-export default SubjectManagement;
+export default withRouter(SubjectManagement);
 
 
- 
