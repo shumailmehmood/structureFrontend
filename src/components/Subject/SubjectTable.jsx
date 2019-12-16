@@ -6,6 +6,7 @@ import "react-table/react-table.css";
 import { deactivateSubject, getSubjects } from '../../api/api';
 import Card from "components/Card/Card.jsx";
 import Switch from "react-switch";
+import { Grid, Row, Col } from "react-bootstrap";
 import Button from "../CustomButton/CustomButton.jsx";
 import { withRouter } from 'react-router'
 import moment from 'moment'
@@ -107,13 +108,19 @@ const SubjectTable = (prop) => {
         <div>
             {showEdit ? <SubjectEditModal handleClose={handleClose} show={showEdit} doc={doc} /> : ''}
             {showAdd ? <SubjectAddModal handleClose={handleAddClose} show={showAdd} /> : ''}
-            <Card
+            <Grid fluid>
+                <Row >
+                    <Col md={2}>          
+                        <Button    style={{margin:'5px'}} onClick={() => { handleAddEdit() }} className='btn-fill btn-wd btn btn-info'>
+                            Add Subject  <i className="fa fa-plus" />
+                        </Button>
+                        </Col>
+                </Row>
+                <Row>
+                    <Col md={12}>
+                    <Card
                 ctAllIcons
                 content={
-                    <div>
-                        <Button style={{marginBottom:"10"}} onClick={() => { handleAddEdit() }} className='btn-fill btn-wd btn btn-warning'>
-                            Add Subject
-                        </Button>
                         <ReactTable
                             data={data}
                             columns={columns}
@@ -121,9 +128,11 @@ const SubjectTable = (prop) => {
                             defaultPageSize={10}
                             className="-striped -highlight"
                         >
-                        </ReactTable>
-                    </div>
+                        </ReactTable> 
                 } />
+                     </Col>
+                </Row>
+            </Grid>
         </div>
     );
 };

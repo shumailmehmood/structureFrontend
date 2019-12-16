@@ -31,7 +31,7 @@ class Footer extends Component {
             "container" + (this.props.fluid !== undefined ? "-fluid" : "")
           }
         >
-          <nav className="pull-left">
+          {/* <nav className="pull-left">
             <ul>
               <li>
                 <a href="#pablo">Home</a>
@@ -46,10 +46,10 @@ class Footer extends Component {
                 <a href="#pablo">Blog</a>
               </li>
             </ul>
-          </nav>
+          </nav> */}
           <p className="copyright pull-right">
             &copy; {1900 + new Date().getYear()}{" "}
-            <a href="https://www.creative-tim.com?ref=lbdpr-footer" target="_blank">Creative Tim</a>, made with{" "}
+            <a href="/" target="_blank">Immentia</a>, made with{" "}
             <i className="fa fa-heart heart" /> for a better web
           </p>
         </div>
