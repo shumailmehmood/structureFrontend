@@ -1,11 +1,11 @@
-import Dashboard from "views/Dashboard.jsx";
+// import Dashboard from "views/Dashboard.jsx";
 import Login from "views/Login.jsx";
 import UnAuthorized from "views/UnAuthorized.jsx";
 import SubjectView from "views/SubjectView/SubjectView.js";
 import SubjectManagementView from "views/SubjectManagementView/SubjectManagementView";
 import UserStatsView from "views/UserStatsView/UserStatsView";
 import Quiz from './views/CreateQuiz';
-import ViewQuiz from './components/ViewQuiz/ViewQuiz';
+// import ViewQuiz from './components/ViewQuiz/ViewQuiz';
 
 var dashboardRoutes = [
   {
@@ -38,17 +38,10 @@ var dashboardRoutes = [
   {
     path: "/createquiz",
     layout: "/admin",
-    name: "Create Quiz",
+    name: " Quiz",
     component: Quiz,
     hideself: true
-  },
-  {
-    path: "/viewquiz",
-    layout: "/admin",
-    name: "View Quiz",
-    component: ViewQuiz,
-    hideself: true
-  },
+  }
 
 ];
 

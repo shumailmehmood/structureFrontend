@@ -36,7 +36,7 @@ const SubjectManagement = (prop) => {
                     <Button
                         onClick={() => {
                             prop.history.push({
-                                pathname: '/admin/viewquiz',
+                                pathname: '/admin/createquiz',
                                 search: `?level=${props.original}&id=${querystring.parse(prop.location.search).id}`
                             })
                         }}

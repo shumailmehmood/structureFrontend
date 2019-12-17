@@ -39,6 +39,7 @@
     "react-syntax-highlighter": "10.2.1",
     "react-table": "^6.11.4",
     "react-tagsinput": "3.19.0",
+    "react-toastify": "^5.4.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "use-state-with-callback": "^1.0.18",

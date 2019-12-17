@@ -4,30 +4,27 @@ import {
     Row,
     FormGroup,
     ControlLabel,
-    // FormControl
+    Image
 } from "react-bootstrap";
 import querystring from "query-string";
-import _ from 'lodash'
 import Button from "components/CustomButton/CustomButton.jsx";
-import Radio from '../CustomRadio/CustomRadio';
 import Card from '../Card/Card';
-import useForm from 'react-hook-form';
 import "../../assets/css/light-bootstrap-dashboard-pro-react.css"
 import { withRouter } from "react-router-dom";
 import * as Actions from "../../store/actions/index";
 import { connect } from 'react-redux'
 import * as Apis from "../../api/api";
 import EditQuizModal from "../Modals/EditQuiz";
+import { SuccessfullToast, ErrorToast } from "../../misc/helper";
 function CreateQuizForm(prop) {
     const [dataDB, setDataDB] = useState([]);
     const [show, setShow] = useState(false);
     const [editCounter, setEditCounter] = useState(false);
     const [selectedData, setSelectedData] = useState(false);
-    const { formState: { dirty }} = useForm();
+
     useEffect(() => {
-        getQuiz();
-    }, [prop.questionAdded,editCounter])
-   
+        getQuiz()
+    }, [prop.questionAdded, editCounter])
     const getQuiz = async () => {
         let params = {
             page: 1,
@@ -45,21 +42,24 @@ function CreateQuizForm(prop) {
 
     }
     const { dispatch } = prop;
-    const update = async (body, id) => {       
+    const update = async (body, id) => {
         let params = {
             level: querystring.parse(prop.location.search).level,
             subject: querystring.parse(prop.location.search).id,
             id: id
         }
         try {
-             await Apis.editQuiz(params, body).then(res => {
-                if (res) {
+            await Apis.editQuiz(params, body).then(res => {
+                if (res.data) {
                     setDataDB(res.data.questions[0]);
-                   editCounter==true?  setEditCounter(false):setEditCounter(true);   
-                   setShow(false)                 
+                    editCounter === true ? setEditCounter(false) : setEditCounter(true);
+                    SuccessfullToast('Updated SuccessFully!')
                     //window.location.reload();              
+                } else {
+                    ErrorToast(res.error.response.data.message + "!");
                 }
-            })                
+                setShow(false)
+            })
         } catch (err) {
             console.log(err)
         }
@@ -76,12 +76,10 @@ function CreateQuizForm(prop) {
         }
         dispatch(Actions.remove_question(submit)).then(res => {
             if (res) {
+                SuccessfullToast('Deleted Successfully!')
                 getQuiz();
             }
         })
-            .catch(err => {
-                console.log(err)
-            })
     }
     function handleClose() {
         setShow(false)
@@ -99,6 +97,7 @@ function CreateQuizForm(prop) {
             {dataDB.length ?
                 dataDB.map((row, index) => (
                     <Card
+                        key={index}
                         content={
                             <fieldset key={index}>
                                 <Row>
@@ -116,50 +115,75 @@ function CreateQuizForm(prop) {
                                                 }</label>
                                             </FormGroup>
                                         </Col>
-                                        <Col md={4}>
+                                        {/* <Col md={4}>
                                             <Radio
                                                 number="14"
                                                 option="2"
-                                                name="radio" 
+                                                name="radio"
                                                 defaultChecked={true}
                                                 label="Multiple Choice"
                                             />
-                                        </Col>
+                                        </Col> */}
                                     </Row>
-                                    <Row>
-                                        {
-                                            row.options.map((innerRow, i) => {
-                                                return (
-                                                    <Row key={i}>
-                                                        <Col md={1}></Col>
-                                                        <Col md={6}>
-                                                            < FormGroup>
+                                    {
+                                        row.options.length ?
+                                            <Row>
+                                                <Col md={8}>
+                                                    {
+                                                        row.options.map((innerRow, i) => {
+                                                            return (
+                                                                <Row key={i}>
+                                                                    <Col md={1}></Col>
+                                                                    <Col md={6}>
+                                                                        < FormGroup>
 
-                                                                <Row>
-                                                                    <Col md={2}>
-                                                                        <input
-                                                                            type="radio"
-                                                                            name={index}
-                                                                            checked={dataDB.length ? row.answer === row.options[i] ? true : false : null}
-                                                                        />
-                                                                    </Col>
-                                                                    <Col md={8}>
-                                                                        <label>{
-                                                                            dataDB.length ? row.options ? row.options[i] : null : null
-                                                                        }</label>
+                                                                            <Row>
+                                                                                <Col md={2}>
+                                                                                    <input
+                                                                                        type="radio"
+                                                                                        name={index}
+                                                                                        defaultChecked={dataDB.length ? row.answer === row.options[i] ? true : false : null}
+                                                                                    />
+                                                                                </Col>
+                                                                                <Col md={8}>
+                                                                                    <label>{
+                                                                                        dataDB.length ? row.options ? row.options[i] : null : null
+                                                                                    }</label>
 
+                                                                                </Col>
+
+                                                                            </Row>
+                                                                        </FormGroup>
                                                                     </Col>
 
                                                                 </Row>
-                                                            </FormGroup>
-                                                        </Col>
 
-                                                    </Row>
+                                                            )
+                                                        })
+                                                    }
+                                                </Col>
+                                                <Col md={4}>
+                                                    {row.imageUrl &&
+                                                        <Image style={{ height: '100px', width: '100px' }} src={row.imageUrl} />}
 
-                                                )
-                                            })
-                                        }
-                                    </Row>
+                                                </Col>
+                                            </Row>
+                                            :
+
+                                            <Row>
+                                                <Col md={1}></Col>
+                                                <Col md={5}> <label>Answer:</label> {row.answer}</Col>
+                                                <Col md={6}>
+                                                    {row.imageUrl &&
+                                                        <Image style={{ height: '100px', width: '100px' }} src={row.imageUrl} />}
+
+                                                    <br />
+                                                    <br />
+
+                                                </Col>
+                                            </Row>
+
+                                    }
                                 </Row>
                                 <Row>
                                     <Col md={2}></Col>

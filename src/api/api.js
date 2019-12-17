@@ -64,8 +64,10 @@ export const editVideoDocument = async (id, name, videoUrl, thumbUrl) => {
     }).then(res => res.data));
 }
 export const createQuiz = async (data) => {
-    return await resolve(axios.post(`${apiBaseUrl}/api/createQuiz`, data)
-        .then(res => res.data));
+   
+        return await resolve(axios.post(`${apiBaseUrl}/api/createQuiz`, data)
+            .then(res => res.data));
+   
 }
 export const viewQuiz = async (params) => {
     return await resolve(axios.get(`${apiBaseUrl}/api/getQuiz?page=${params.page}&limit=${params.limit}&level=${params.level}&subject=${params.subject}`)
@@ -77,6 +79,10 @@ export const removeQuiz = async (params) => {
 }
 export const editQuiz = async (params, body) => {
     return await resolve(axios.post(`${apiBaseUrl}/api/editQuiz?level=${params.level}&subjectId=${params.subject}&questionId=${params.id}`, body)
+        .then(res => res.data));
+}
+export const uploadImage = async (body, config) => {
+    return await resolve(axios.post(`${apiBaseUrl}/uploadimage`, body, config)
         .then(res => res.data));
 }
 

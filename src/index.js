@@ -10,6 +10,9 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunk from 'redux-thunk';
 import rootReducer from "./store/reducers/index";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
 set401Interceptor();
 const store = createStore(rootReducer, applyMiddleware(thunk));
 ReactDOM.render(<Provider store={store}><App /></Provider>,
