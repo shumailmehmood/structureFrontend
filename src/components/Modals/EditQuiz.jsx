@@ -9,7 +9,6 @@ const EditQuiz = (prop) => {
     const {
         register,
         handleSubmit,
-
     } = useForm({
         defaultValues: {
             'questions[0].question': prop.data.question,
@@ -24,12 +23,14 @@ const EditQuiz = (prop) => {
     const [options] = useState([0, 1, 2, 3]);
     const [imageURL, setImageURL] = useState(prop.data.imageUrl ? prop.data.imageUrl : '');
     const [upload, setUpload] = useState(false);
+
     const onSubmit = (data) => {
         data.questions.forEach((rowOuter) => {
-            rowOuter.answer = rowOuter.options ? _.get(data, rowOuter.answer) : rowOuter.answer
+            rowOuter.answer = rowOuter.answer ? rowOuter.options ? _.get(data, rowOuter.answer) : rowOuter.answer : prop.data.answer
             rowOuter.imageUrl = imageURL ? imageURL : '';
             return data
         })
+
         let dataSub = data.questions[0];
         prop.update(dataSub, prop.data._id)
     };
@@ -129,13 +130,17 @@ const EditQuiz = (prop) => {
                                                                             <Col md={6}>
                                                                                 < FormGroup >
                                                                                     <Row>
+                                                                                        {console.log(prop.data.answer, prop.data.options[i])}
                                                                                         <Col md={2}>
                                                                                             <input
                                                                                                 type="radio"
                                                                                                 name={`${fieldName}.answer`}
                                                                                                 ref={register}
                                                                                                 value={`${option}`}
-                                                                                            // checked={prop.data.answer == prop.data.options[row] ? true : null}
+                                                                                                //  defaultChecked={prop.data.answer == prop.data.options[row] ? true : null}
+                                                                                                // defaultChecked={prop.data.answer === prop.data.options[i] ? true : true}
+                                                                                                // defaultValue={true}
+                                                                                                checked={true}
                                                                                             />
                                                                                         </Col>
                                                                                         <Col md={8}>
