@@ -33,7 +33,7 @@ const SubjectManagement = (prop) => {
                     >
                         <i className="fa fa-plus" />
                     </Button>
-                    <Button
+                    {/* <Button
                         onClick={() => {
                             prop.history.push({
                                 pathname: '/admin/createquiz',
@@ -45,7 +45,7 @@ const SubjectManagement = (prop) => {
                         icon
                     >
                         <i className="fa fa-eye" />
-                    </Button>
+                    </Button> */}
                 </div>
             )
         }
