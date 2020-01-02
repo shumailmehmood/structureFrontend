@@ -1,9 +1,7 @@
 const express = require('express');
 require('dotenv').config()
 const favicon = require('express-favicon');
-const request = require('request')
 const path = require('path');
-const axios = require('axios');
 const port = process.env.PORT || 3000;
 const app = express();
 
