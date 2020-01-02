@@ -1,9 +1,10 @@
 //help https://stackoverflow.com/questions/49500379/typical-file-structure-in-reactjs-application-grouping-api-calls-in-api-js
 import axios from 'axios';
 import resolve from './resolve';
+require('dotenv').config()
 
 // let apiBaseUrl = 'http://172.16.14.150:3001';
-let apiBaseUrl =process.env.REACT_APP_API_BASEURL;
+let apiBaseUrl = process.env.REACT_APP_API_BASEURL;
 
 export const testAuth = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/profile`).then(res => res.data));
@@ -64,10 +65,10 @@ export const editVideoDocument = async (id, name, videoUrl, thumbUrl) => {
     }).then(res => res.data));
 }
 export const createQuiz = async (data) => {
-   
-        return await resolve(axios.post(`${apiBaseUrl}/api/createQuiz`, data)
-            .then(res => res.data));
-   
+
+    return await resolve(axios.post(`${apiBaseUrl}/api/createQuiz`, data)
+        .then(res => res.data));
+
 }
 export const viewQuiz = async (params) => {
     return await resolve(axios.get(`${apiBaseUrl}/api/getQuiz?page=${params.page}&limit=${params.limit}&level=${params.level}&subject=${params.subject}`)
