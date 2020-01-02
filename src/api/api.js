@@ -4,7 +4,7 @@ import resolve from './resolve';
 require('dotenv').config()
 
 // let apiBaseUrl = 'http://172.16.14.150:3001';
-let apiBaseUrl = process.env.REACT_APP_API_BASEURL;
+let apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 export const testAuth = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/profile`).then(res => res.data));
