@@ -10,3 +10,7 @@ export const ErrorToast = (info) => {
         position: toast.POSITION.TOP_RIGHT
     });
 }
+export const RemoveInternalSpaces = (sentence) => {
+    sentence=sentence.replace(/\s/g, "");
+    return sentence[0].toLowerCase() + sentence.slice(1);
+}

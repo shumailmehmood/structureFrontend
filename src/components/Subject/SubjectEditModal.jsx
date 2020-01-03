@@ -1,22 +1,27 @@
-
+import React, { useState, useEffect } from "react";
 import useForm from "react-hook-form";
 import { Modal } from 'react-bootstrap';
 import Button from "components/CustomButton/CustomButton.jsx";
 import { Grid, Col, FormGroup, ControlLabel, Row, Form } from "react-bootstrap";
-import React, { useState } from "react";
-import { editSubject } from '../../api/api';
-const SubjectEditModal = (props) => {
 
+import { editSubject } from '../../api/api';
+import { RemoveInternalSpaces } from "../../misc/helper"
+const SubjectEditModal = (props) => {
     const [spinner, setSpinner] = useState(false);
+    const [defaultVal, setDefaultVal] = useState({});
     const { handleSubmit, register, errors } = useForm({
-        defaultValues: {
-            name: props.doc.original.name
-        }
+        defaultValues: defaultVal
     });
+    useEffect(() => {
+        let data = {};
+        data[RemoveInternalSpaces(props.doc.name)] = props.doc.value
+        setDefaultVal(data)
+    }, [])
     const onSubmit = async (values) => {
         setSpinner(true)
-
-        let response = await editSubject(props.doc.value, values.name);
+        let data = {}
+        data[RemoveInternalSpaces(props.doc.name)] = values[RemoveInternalSpaces(props.doc.name)]
+        let response = await editSubject(props.doc.id, data);
         if (response.error) {
             setSpinner(false)
             props.handleClose()
@@ -40,9 +45,9 @@ const SubjectEditModal = (props) => {
                                         <FormGroup
                                             validationState={errors.name && errors.name.message ? "error" : "success"}
                                         >
-                                            <ControlLabel>Subject</ControlLabel>
+                                            <ControlLabel>{props.doc.name}</ControlLabel>
                                             <input
-                                                name="name"
+                                                name={`${RemoveInternalSpaces(props.doc.name)}`}
                                                 ref={register}
                                                 required
                                                 placeholder="Enter your Subject Name"

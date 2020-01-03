@@ -3,8 +3,8 @@ import axios from 'axios';
 import resolve from './resolve';
 require('dotenv').config()
 
-// let apiBaseUrl = 'http://172.16.14.150:3001';
-let apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+let apiBaseUrl = 'http://172.16.7.133:3001';
+// let apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 export const testAuth = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/profile`).then(res => res.data));
@@ -40,8 +40,8 @@ export const getSpecificSubject = async (subjectId) => {
         .then(res => res.data));
 }
 
-export const editSubject = async (id, name) => {
-    return await resolve(axios.put(`${apiBaseUrl}/api/editSubject/${id}`, { name })
+export const editSubject = async (id, body) => {
+    return await resolve(axios.put(`${apiBaseUrl}/api/editSubject/${id}`, body)
         .then(res => res.data));
 }
 
@@ -86,4 +86,5 @@ export const uploadImage = async (body, config) => {
     return await resolve(axios.post(`${apiBaseUrl}/uploadimage`, body, config)
         .then(res => res.data));
 }
+
 

@@ -14,7 +14,7 @@ const SubjectTable = (prop) => {
     const [data, setData] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
     const [showAdd, setshowAdd] = useState(false);
-    const [doc, setDoc] = useState();
+    const [doc, setDoc] = useState({});
     const [loading, setLoading] = useState(false);
 
     async function anyNameFunction() {
@@ -39,7 +39,6 @@ const SubjectTable = (prop) => {
     }, []);
 
     function handleEdit(params) {
-
         setShowEdit(true);
         setDoc(params)
     }
@@ -77,6 +76,17 @@ const SubjectTable = (prop) => {
                     </Button>)
         },
         {
+            Header: "Access Token",
+            Cell: props => {
+                return <u
+                    onClick={() => { handleEdit({ id: props.original._id, name: props.column.Header, value: props.original.accessToken }) }}
+                    style={{ cursor: 'pointer', color: '#23CCEF' }}>
+                    {props.original.accessToken}
+                </u>
+            },
+            width: 190
+        },
+        {
             Header: "Created At",
             accessor: "createdAt",
             Cell: props => (<div>{moment(props.original.createdAt).format("LLL")}</div>),
@@ -88,7 +98,7 @@ const SubjectTable = (prop) => {
             Cell: props => (
                 <div className="actions-right">
                     <Button
-                        onClick={() => { handleEdit(props) }}
+                        onClick={() => { handleEdit({ id: props.original._id, name: "Name", value: props.original.name }) }}
                         bsStyle="warning"
                         simple
                         icon
@@ -110,27 +120,27 @@ const SubjectTable = (prop) => {
             {showAdd ? <SubjectAddModal handleClose={handleAddClose} show={showAdd} /> : ''}
             <Grid fluid>
                 <Row >
-                    <Col md={2}>          
-                        <Button    style={{margin:'5px'}} onClick={() => { handleAddEdit() }} className='btn-fill btn-wd btn btn-info'>
+                    <Col md={2}>
+                        <Button style={{ margin: '5px' }} onClick={() => { handleAddEdit() }} className='btn-fill btn-wd btn btn-info'>
                             Add Subject  <i className="fa fa-plus" />
                         </Button>
-                        </Col>
+                    </Col>
                 </Row>
                 <Row>
                     <Col md={12}>
-                    <Card
-                ctAllIcons
-                content={
-                        <ReactTable
-                            data={data}
-                            columns={columns}
-                            loading={loading}
-                            defaultPageSize={10}
-                            className="-striped -highlight"
-                        >
-                        </ReactTable> 
-                } />
-                     </Col>
+                        <Card
+                            ctAllIcons
+                            content={
+                                <ReactTable
+                                    data={data}
+                                    columns={columns}
+                                    loading={loading}
+                                    defaultPageSize={10}
+                                    className="-striped -highlight"
+                                >
+                                </ReactTable>
+                            } />
+                    </Col>
                 </Row>
             </Grid>
         </div>
