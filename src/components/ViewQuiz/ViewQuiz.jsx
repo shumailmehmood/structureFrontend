@@ -46,7 +46,7 @@ function CreateQuizForm(prop) {
     const copyQuestion = (index) => {    
         delete dataDB[index]._id;
         let submitData = {
-            level: querystring.parse(prop.location.search).level,
+            levelId: querystring.parse(prop.location.search).level,
             questions: [dataDB[index]],
             subject: querystring.parse(prop.location.search).id,
         };
@@ -56,7 +56,7 @@ function CreateQuizForm(prop) {
                 ErrorToast(res.error.response.data.message + "!");
             } else {
                 getQuiz()
-                SuccessfullToast('Question Created!')
+                SuccessfullToast('Question Copied!')
 
             }
         })
