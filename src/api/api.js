@@ -2,7 +2,7 @@
 import axios from 'axios';
 import resolve from './resolve';
 
-let apiBaseUrl = 'http://172.16.7.133:3001';
+let apiBaseUrl = 'http://172.16.14.150:3001';
 
 
 export const testAuth = async () => {
