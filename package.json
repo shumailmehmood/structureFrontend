@@ -26,6 +26,7 @@
     "react-bootstrap-switch": "15.5.3",
     "react-bootstrap-tabs": "^1.0.2",
     "react-chartist": "0.13.3",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-datetime": "2.16.3",
     "react-dom": "16.8.6",
     "react-google-maps": "9.4.5",
@@ -50,7 +51,8 @@
     "wnumb": "1.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start-dev": "react-scripts start",
+    "start": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

@@ -1,9 +1,9 @@
-
+import React, { useState, useEffect } from "react";
 import useForm from "react-hook-form";
 import { Modal } from 'react-bootstrap';
 import Button from "components/CustomButton/CustomButton.jsx";
 import { Grid, Col, FormGroup, ControlLabel, Row, Form } from "react-bootstrap";
-import React, { useState } from "react";
+
 import { editSubject } from '../../api/api';
 let data
 function useOnMount(handler) {
@@ -111,7 +111,7 @@ const SubjectEditModal = (props) => {
                                         <FormGroup
                                             validationState={errors.name && errors.name.message ? "error" : "success"}
                                         >
-                                            <ControlLabel>Subject</ControlLabel>
+                                            <ControlLabel>{props.doc.name}</ControlLabel>
                                             <input
                                                 name="subjectName"
                                                 ref={register}

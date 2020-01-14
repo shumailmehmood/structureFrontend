@@ -16,6 +16,7 @@ import { connect } from 'react-redux'
 import * as Apis from "../../api/api";
 import EditQuizModal from "../Modals/EditQuiz";
 import { SuccessfullToast, ErrorToast } from "../../misc/helper";
+import { createQuiz } from "../../api/api";
 function CreateQuizForm(prop) {
     const [dataDB, setDataDB] = useState([]);
     const [show, setShow] = useState(false);
@@ -42,6 +43,24 @@ function CreateQuizForm(prop) {
 
     }
     const { dispatch } = prop;
+    const copyQuestion = (index) => {    
+        delete dataDB[index]._id;
+        let submitData = {
+            level: querystring.parse(prop.location.search).level,
+            questions: [dataDB[index]],
+            subject: querystring.parse(prop.location.search).id,
+        };
+        createQuiz(submitData).then(res => {
+            if (res.error) {
+                getQuiz()
+                ErrorToast(res.error.response.data.message + "!");
+            } else {
+                getQuiz()
+                SuccessfullToast('Question Created!')
+
+            }
+        })
+    }
     const update = async (body, id) => {
         let params = {
             level: querystring.parse(prop.location.search).level,
@@ -187,9 +206,11 @@ function CreateQuizForm(prop) {
                                 </Row>
                                 <Row>
                                     <Col md={2}></Col>
-                                    <Col md={4}><Button onClick={() => editCard(row)}>Edit</Button></Col>
-                                    <Col md={4}><Button onClick={() => removeCard(row._id)}>Delete</Button></Col>
-                                    <Col md={2}></Col>
+                                    <Col md={3}><Button onClick={() => editCard(row)}>Edit</Button></Col>
+                                    <Col md={3}><Button onClick={() => removeCard(row._id)}>Delete</Button></Col>
+                                    <Col md={3}><Button onClick={() => copyQuestion(index)}>Copy</Button></Col>
+
+                                    <Col md={1}></Col>
                                 </Row>
                             </fieldset>
                         } />
