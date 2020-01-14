@@ -33,9 +33,9 @@ function CreateQuizForm(prop) {
 
 
     const onSubmit = (data) => {
-
+       
         data.questions.forEach((rowOuter) => {
-            rowOuter.answer = rowOuter.options ? _.get(data, rowOuter.answer) : rowOuter.answer
+            rowOuter.answer = rowOuter.options ? _.get(data, rowOuter.answer) : rowOuter.answer1
             rowOuter.imageUrl = imageURL ? imageURL : '';
             return data
         })
@@ -46,6 +46,7 @@ function CreateQuizForm(prop) {
             subject: querystring.parse(prop.location.search).id,
 
         };
+
         createQuiz(submitData).then(res => {
             if (res.error) {
                 prop.handleClose()
@@ -164,9 +165,11 @@ function CreateQuizForm(prop) {
                                                                 <FormGroup>
                                                                     <input
                                                                         type="text"
-                                                                        name={`${fieldName}.answer`}
-                                                                        ref={register({ required: true, validate: value => value !== "" })}
+                                                                        name={`${fieldName}.answer1`}
+                                                                        ref={register}
                                                                         className={"form-control"}
+                                                                        placeholder="Enter the Answer"
+
                                                                     />
                                                                 </FormGroup>
 

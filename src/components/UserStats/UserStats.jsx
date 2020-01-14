@@ -58,7 +58,7 @@ const UserStats = () => {
             accessor: 'name',
             sortable: false,
             Cell: props => <div className="flag">
-            <img src={table_data[props.row._index].flag} alt="us_flag" />
+            {/* <img src={table_data[props.row._index].flag} alt="us_flag" /> */}
             
           </div>
 
