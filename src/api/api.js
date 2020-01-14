@@ -4,11 +4,6 @@ import resolve from './resolve';
 require('dotenv').config()
 
 let apiBaseUrl = 'http://172.16.14.150:3001';
-<<<<<<< HEAD
-// let apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-=======
-
->>>>>>> 8b4ac96870456ca355ab77abf38656be52a06044
 
 export const testAuth = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/profile`).then(res => res.data));
@@ -49,17 +44,12 @@ export const getSpecificSubject = async (subjectId) => {
         .then(res => res.data));
 }
 
-<<<<<<< HEAD
-export const editSubject = async (id, body) => {
-    return await resolve(axios.put(`${apiBaseUrl}/api/editSubject/${id}`, body)
-=======
 export const editSubject = async (id, data) => {
     return await resolve(axios.put(`${apiBaseUrl}/api/editSubject/${id}`, data)
         .then(res => res.data));
 }
 export const editLevel = async (id, data) => {
     return await resolve(axios.put(`${apiBaseUrl}/api/editLevel/${id}`,data)
->>>>>>> 8b4ac96870456ca355ab77abf38656be52a06044
         .then(res => res.data));
 }
 
