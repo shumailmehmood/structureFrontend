@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactTable from "react-table";
 import SubjectEditModal from "./SubjectEditModal";
+import AccessTokenModal from "./AccessTokenModal";
 import SubjectAddModal from "./Subject";
 import "react-table/react-table.css";
 import { deactivateSubject, getSubjects } from '../../api/api';
@@ -13,8 +14,10 @@ import moment from 'moment'
 const SubjectTable = (prop) => {
     const [data, setData] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
+    const [showTokenEdit, setShowTokenEdit] = useState(false);
     const [showAdd, setshowAdd] = useState(false);
-    const [doc, setDoc] = useState({});
+    const [doc, setDoc] = useState();
+    const [tokenDoc, setTokenDoc] = useState();
     const [loading, setLoading] = useState(false);
 
     async function anyNameFunction() {
@@ -39,11 +42,21 @@ const SubjectTable = (prop) => {
     }, []);
 
     function handleEdit(params) {
+
         setShowEdit(true);
         setDoc(params)
     }
+    function handleTokenEdit(params) {
+
+        setShowTokenEdit(true);
+        setTokenDoc(params)
+    }
     function handleClose() {
         setShowEdit(false)
+        anyNameFunction();
+    }
+    function handleTokenClose() {
+        setShowTokenEdit(false)
         anyNameFunction();
     }
     function handleAddEdit() {
@@ -75,11 +88,11 @@ const SubjectTable = (prop) => {
                     >{props.original.name}
                     </Button>)
         },
-        {
+         {
             Header: "Access Token",
             Cell: props => {
                 return <u
-                    onClick={() => { handleEdit({ id: props.original._id, name: props.column.Header, value: props.original.accessToken }) }}
+                    onClick={() => { handleTokenEdit({ id: props.original._id, name: props.column.Header, value: props.original.accessToken }) }}
                     style={{ cursor: 'pointer', color: '#23CCEF' }}>
                     {props.original.accessToken}
                 </u>
@@ -98,7 +111,7 @@ const SubjectTable = (prop) => {
             Cell: props => (
                 <div className="actions-right">
                     <Button
-                        onClick={() => { handleEdit({ id: props.original._id, name: "Name", value: props.original.name }) }}
+                        onClick={() => { handleEdit(props) }}
                         bsStyle="warning"
                         simple
                         icon
@@ -117,30 +130,31 @@ const SubjectTable = (prop) => {
     return (
         <div>
             {showEdit ? <SubjectEditModal handleClose={handleClose} show={showEdit} doc={doc} /> : ''}
+            {showTokenEdit ? <AccessTokenModal handleClose={handleTokenClose} show={showTokenEdit} doc={tokenDoc} /> : ''}
             {showAdd ? <SubjectAddModal handleClose={handleAddClose} show={showAdd} /> : ''}
             <Grid fluid>
                 <Row >
-                    <Col md={2}>
-                        <Button style={{ margin: '5px' }} onClick={() => { handleAddEdit() }} className='btn-fill btn-wd btn btn-info'>
+                    <Col md={2}>          
+                        <Button    style={{margin:'5px'}} onClick={() => { handleAddEdit() }} className='btn-fill btn-wd btn btn-info'>
                             Add Subject  <i className="fa fa-plus" />
                         </Button>
-                    </Col>
+                        </Col>
                 </Row>
                 <Row>
                     <Col md={12}>
-                        <Card
-                            ctAllIcons
-                            content={
-                                <ReactTable
-                                    data={data}
-                                    columns={columns}
-                                    loading={loading}
-                                    defaultPageSize={10}
-                                    className="-striped -highlight"
-                                >
-                                </ReactTable>
-                            } />
-                    </Col>
+                    <Card
+                ctAllIcons
+                content={
+                        <ReactTable
+                            data={data}
+                            columns={columns}
+                            loading={loading}
+                            defaultPageSize={10}
+                            className="-striped -highlight"
+                        >
+                        </ReactTable> 
+                } />
+                     </Col>
                 </Row>
             </Grid>
         </div>
