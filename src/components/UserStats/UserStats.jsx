@@ -53,16 +53,16 @@ const UserStats = () => {
     }
 
     const columns = [
-        {
-            Header: "Country",
-            accessor: 'name',
-            sortable: false,
-            Cell: props => <div className="flag">
-            <img src={table_data[props.row._index].flag} alt="us_flag" />
-            
-          </div>
+        // {
+        //     Header: "Country",
+        //     accessor: 'name',
+        //     sortable: false,
+        //     Cell: props => <div className="flag">
+        //     {/* <img src={table_data[props.row._index].flag} alt="us_flag" /> */}
+        //    {console.log(table_data[props.row._index].flag)} 
+        //   </div>
 
-        },
+        // },
         {
             Header: "User",
             accessor: "name",

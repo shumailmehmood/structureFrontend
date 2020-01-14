@@ -41,7 +41,7 @@ function CreateQuizForm(prop) {
         })
 
         let submitData = {
-            level: querystring.parse(prop.location.search).level,
+            levelId: querystring.parse(prop.location.search).level,
             questions: data.questions,
             subject: querystring.parse(prop.location.search).id,
 

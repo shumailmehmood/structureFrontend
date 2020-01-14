@@ -25,22 +25,31 @@ export const login = async (email, password) => {
 }
 //////////////////////////////SUBJECT//////////////////////////////////////////////
 export const createSubject = async (name) => {
-    return await resolve(axios.post(`${apiBaseUrl}/api/createSubject`, {
-        name
-    }).then(res => res.data));
+    return await resolve(axios.post(`${apiBaseUrl}/api/createSubject`, name )
+    .then(res => res.data));
 }
 
 export const getSubjects = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/api/getSubjects`)
         .then(res => res.data));
 }
+
+export const getSubjectInfo = async (id) => {
+    return await resolve(axios.get(`${apiBaseUrl}/api/getSubjectInfo/`+ id)
+        .then(res => res.data));
+}
+
 export const getSpecificSubject = async (subjectId) => {
     return await resolve(axios.get(`${apiBaseUrl}/api/getSubjects?subjectId=${subjectId}`)
         .then(res => res.data));
 }
 
-export const editSubject = async (id, name) => {
-    return await resolve(axios.put(`${apiBaseUrl}/api/editSubject/${id}`, { name })
+export const editSubject = async (id, data) => {
+    return await resolve(axios.put(`${apiBaseUrl}/api/editSubject/${id}`, data)
+        .then(res => res.data));
+}
+export const editLevel = async (id, data) => {
+    return await resolve(axios.put(`${apiBaseUrl}/api/editLevel/${id}`,data)
         .then(res => res.data));
 }
 

@@ -5,18 +5,89 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import { Grid, Col, FormGroup, ControlLabel, Row, Form } from "react-bootstrap";
 import React, { useState } from "react";
 import { editSubject } from '../../api/api';
-const SubjectEditModal = (props) => {
+let data
+function useOnMount(handler) {
+    React.useEffect(handler, []);
+}
 
-    const [spinner, setSpinner] = useState(false);
-    const { handleSubmit, register, errors } = useForm({
-        defaultValues: {
-            name: props.doc.original.name
+function createArrayWithNumbers(length) {
+    return Array.from({ length }, (_, k) => k); // Issue: k + 1 causes null values.
+}
+
+function pivotData(data, size = data[Object.keys(data)[0]].length) {
+    const keys = Object.keys(data);
+    const keysLength = keys.length;
+    // console.log("keys: ", keys);
+    const rows = [];
+    for (let i = 0; i < size; i++) {
+        const row = {};
+        for (let j = 0; j < keysLength; j++) {
+            const key = keys[j];
+            const value = data[key][i];
+            row[key] = value;
         }
-    });
-    const onSubmit = async (values) => {
-        setSpinner(true)
+        rows.push(row);
+    }
+    return rows;
+}
 
-        let response = await editSubject(props.doc.value, values.name);
+function unpivotData(data, keys = []) {
+    const output = keys.reduce((r, key) => {
+        r[key] = [];
+        return r;
+    }, {});
+    data.forEach((row, i) => {
+        keys.forEach(key => {
+            output[key][i] = row[key] !== undefined ? row[key] : null;
+        });
+    });
+    return output;
+}
+
+const dataKeys = ['_id', "level"];
+
+const SubjectEditModal = (props) => {
+    const defaultValues = {
+        subjectName: props.doc.original.name
+    }
+    const [size, setSize] = useState(props.doc.original.length);
+    const [spinner, setSpinner] = useState(false);
+    const { handleSubmit, reset, register, errors } = useForm({ defaultValues });
+
+
+    async function loadFromServer() {
+
+        setSize(props.doc.original.subjectLevels.length);
+        data = await unpivotData(props.doc.original.subjectLevels, dataKeys);
+        if (data) {
+            data.subjectName = props.doc.original.name
+            reset(data);
+        }
+        else { console.log("LOADING: ", data); }
+    }
+    const handleReset = () => {
+        reset(data);
+    };
+    // Instead of using defaultValues, I'd actually like to load data here...
+    useOnMount(() => {
+        loadFromServer();
+    });
+
+    const onSubmit = async (values) => {
+        //setSpinner(true)
+        const rows = pivotData(values);
+        let s = '';
+        let ss = []
+        rows.map(e => { return e.subjectName != undefined ? s += e.subjectName : null })
+        rows.map(e => {
+            if (e.level != undefined) {
+                var newData = { "level": e.level };
+                return ss.push(newData);
+            }
+        })        
+        data = { name: s, subjectLevels: ss }
+
+        let response = await editSubject(props.doc.value,data);
         if (response.error) {
             setSpinner(false)
             props.handleClose()
@@ -42,7 +113,7 @@ const SubjectEditModal = (props) => {
                                         >
                                             <ControlLabel>Subject</ControlLabel>
                                             <input
-                                                name="name"
+                                                name="subjectName"
                                                 ref={register}
                                                 required
                                                 placeholder="Enter your Subject Name"
@@ -51,12 +122,38 @@ const SubjectEditModal = (props) => {
 
                                             {(errors.name && errors.name.message) && <small className="text-danger">{errors.name && errors.name.message}</small>}
                                         </FormGroup>
+                                        {createArrayWithNumbers(size).map(number => {
+                                            return (
+                                                <div key={number}>
+                                                    <label htmlFor="level" style={{color:'#87cb16'}}>Level</label>
+                                                    <input
+                                                        name={`level[${number}]`}
+                                                        placeholder="level"
+                                                        ref={register}
+                                                        className="form-control"
+                                                    />                                                 
+                                                    <hr />
+                                                </div>
+                                            );
+                                        })}
+
+                                        <Button style={{margin:'10px'}}      bsStyle="danger" type="button" fill wd onClick={() => setSize(size + 1)}>
+                                            Add level
+                                          </Button>
+                                        <Button style={{margin:'10px'}}      bsStyle="info" type="button"  fill wd onClick={() => setSize(size - 1)}>
+                                            Remove Level
+                                         </Button>
+                                        <div style={{ color: "red" }}>
+                                            {Object.keys(errors).length > 0 &&
+                                                "There are errors, check your console."}
+                                        </div>
                                     </Modal.Body>
                                     <Modal.Footer>
                                         <Button style={{ backgroundColor: '#0f4b5f' }} disabled={spinner} type="submit" fill wd>
                                             {spinner ? 'SUBMITTING....' : 'Proceed'}
                                             <i className={spinner ? 'fa fa-spin fa-spinner' : null} />
                                         </Button>
+                                        {/* <input type="button" onClick={handleReset} value="Reset" /> */}
                                     </Modal.Footer>
                                 </Form>
                             </Modal>
