@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useForm from "react-hook-form";
 import { Modal } from 'react-bootstrap';
 import Button from "components/CustomButton/CustomButton.jsx";
@@ -55,7 +55,7 @@ const SubjectEditModal = (props) => {
     const { handleSubmit, reset, register, errors } = useForm({ defaultValues });
 
 
-    async function loadFromServer() {
+    async function loadFromProps() {
 
         setSize(props.doc.original.subjectLevels.length);
         data = await unpivotData(props.doc.original.subjectLevels, dataKeys);
@@ -65,12 +65,10 @@ const SubjectEditModal = (props) => {
         }
         else { console.log("LOADING: ", data); }
     }
-    const handleReset = () => {
-        reset(data);
-    };
+
     // Instead of using defaultValues, I'd actually like to load data here...
     useOnMount(() => {
-        loadFromServer();
+        loadFromProps();
     });
 
     const onSubmit = async (values) => {
@@ -78,16 +76,10 @@ const SubjectEditModal = (props) => {
         const rows = pivotData(values);
         let s = '';
         let ss = []
-        rows.map(e => { return e.subjectName != undefined ? s += e.subjectName : null })
-        rows.map(e => {
-            if (e.level != undefined) {
-                var newData = { "level": e.level };
-                return ss.push(newData);
-            }
-        })        
-        data = { name: s, subjectLevels: ss }
+        rows.map(e => e.subjectName !== undefined ? s += e.subjectName : null)
+        rows.map(e => e.level !== undefined ? ss.push({ "level": e.level }) : null)          
 
-        let response = await editSubject(props.doc.value,data);
+        let response = await editSubject(props.doc.value,{ name: s, subjectLevels: ss });
         if (response.error) {
             setSpinner(false)
             props.handleClose()
@@ -125,22 +117,22 @@ const SubjectEditModal = (props) => {
                                         {createArrayWithNumbers(size).map(number => {
                                             return (
                                                 <div key={number}>
-                                                    <label htmlFor="level" style={{color:'#87cb16'}}>Level</label>
+                                                    <label htmlFor="level" style={{ color: '#87cb16' }}>Level</label>
                                                     <input
                                                         name={`level[${number}]`}
                                                         placeholder="level"
                                                         ref={register}
                                                         className="form-control"
-                                                    />                                                 
+                                                    />
                                                     <hr />
                                                 </div>
                                             );
                                         })}
 
-                                        <Button style={{margin:'10px'}}      bsStyle="danger" type="button" fill wd onClick={() => setSize(size + 1)}>
+                                        <Button style={{ margin: '10px' }} bsStyle="danger" type="button" fill wd onClick={() => setSize(size + 1)}>
                                             Add level
                                           </Button>
-                                        <Button style={{margin:'10px'}}      bsStyle="info" type="button"  fill wd onClick={() => setSize(size - 1)}>
+                                        <Button style={{ margin: '10px' }} bsStyle="info" type="button" fill wd onClick={() => setSize(size - 1)}>
                                             Remove Level
                                          </Button>
                                         <div style={{ color: "red" }}>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactTable from "react-table";
 import SubjectEditModal from "./SubjectEditModal";
 import AccessTokenModal from "./AccessTokenModal";
-import SubjectAddModal from "./Subject";
+import SubjectAddModal from "./AddSubjectModal";
 import "react-table/react-table.css";
 import { deactivateSubject, getSubjects } from '../../api/api';
 import Card from "components/Card/Card.jsx";
