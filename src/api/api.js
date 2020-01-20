@@ -3,7 +3,7 @@ import axios from 'axios';
 import resolve from './resolve';
 require('dotenv').config()
 
-let apiBaseUrl = 'https://quizhooapp.appsace.com';
+let apiBaseUrl = 'https://quizhooapi.appsace.com';
 
 export const testAuth = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/profile`).then(res => res.data));
