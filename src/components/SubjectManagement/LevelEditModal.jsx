@@ -10,14 +10,16 @@ const LevelEditModal = (props) => {
     const [spinner, setSpinner] = useState(false);
     const { handleSubmit, register, errors } = useForm({
         defaultValues: {
-            name: props.doc.params
+            name: props.doc.params,
+            sampleSize: props.doc.sampleSize,
         }
     });
     const onSubmit = async (values) => {
-        setSpinner(true)       
-        let data ={}
+        setSpinner(true)
+        let data = {}
         data.orignalValue = props.doc.params
         data.newValue = values.name
+        data.sampleSize = values.sampleSize
 
         let response = await editLevel(props.doc.subjectID, data);
         if (response.error) {
@@ -30,7 +32,7 @@ const LevelEditModal = (props) => {
     }
     return (
         <div className="content">
-            
+                    {console.log('sampleSize',props.doc)}
             <Grid fluid>
                 <Row>
                     <Col>
@@ -54,6 +56,20 @@ const LevelEditModal = (props) => {
                                             />
 
                                             {(errors.name && errors.name.message) && <small className="text-danger">{errors.name && errors.name.message}</small>}
+                                        </FormGroup>
+                                        <FormGroup
+                                            validationState={errors.sampleSize && errors.sampleSize.message ? "error" : "success"}
+                                        >
+                                            <ControlLabel>Sample Size</ControlLabel>
+                                            <input
+                                                name="sampleSize"
+                                                ref={register}
+                                                required
+                                                placeholder="Enter your Sample Size"
+                                                className="form-control"
+                                            />
+
+                                            {(errors.sampleSize && errors.sampleSize.message) && <small className="text-danger">{errors.sampleSize && errors.sampleSize.message}</small>}
                                         </FormGroup>
                                     </Modal.Body>
                                     <Modal.Footer>

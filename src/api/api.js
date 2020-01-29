@@ -3,7 +3,7 @@ import axios from 'axios';
 import resolve from './resolve';
 require('dotenv').config()
 
-let apiBaseUrl = 'http://172.16.7.133:3001';
+let apiBaseUrl = 'http://localhost:3001';
 
 export const testAuth = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/profile`).then(res => res.data));
@@ -50,6 +50,11 @@ export const editSubject = async (id, data) => {
 }
 export const editLevel = async (id, data) => {
     return await resolve(axios.put(`${apiBaseUrl}/api/editLevel/${id}`,data)
+        .then(res => res.data));
+}
+
+export const toggleLevel = async (sId,lId,status) => {
+    return await resolve(axios.put(`${apiBaseUrl}/api/toggleLevel?subjectid=${sId}&levelId=${lId}&status=${status}`)
         .then(res => res.data));
 }
 
