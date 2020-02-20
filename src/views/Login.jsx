@@ -33,7 +33,7 @@ import React, { useState } from "react";
 import { useAuth } from 'context/auth';
 
 import { login } from '../api/api';
-import useForm from "react-hook-form";
+import {useForm} from "react-hook-form";
 
 
 function Login(props) {

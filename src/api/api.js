@@ -3,7 +3,8 @@ import axios from 'axios';
 import resolve from './resolve';
 require('dotenv').config()
 
-let apiBaseUrl = 'http://172.16.14.150:3001';
+//let apiBaseUrl = 'http://172.16.14.150:3001';
+let apiBaseUrl = 'http://localhost:3001';
 
 export const testAuth = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/profile`).then(res => res.data));
@@ -25,8 +26,8 @@ export const login = async (email, password) => {
 }
 //////////////////////////////SUBJECT//////////////////////////////////////////////
 export const createSubject = async (name) => {
-    return await resolve(axios.post(`${apiBaseUrl}/api/createSubject`, name )
-    .then(res => res.data));
+    return await resolve(axios.post(`${apiBaseUrl}/api/createSubject`, name)
+        .then(res => res.data));
 }
 
 export const getSubjects = async () => {
@@ -35,7 +36,7 @@ export const getSubjects = async () => {
 }
 
 export const getSubjectInfo = async (id) => {
-    return await resolve(axios.get(`${apiBaseUrl}/api/getSubjectInfo/`+ id)
+    return await resolve(axios.get(`${apiBaseUrl}/api/getSubjectInfo/` + id)
         .then(res => res.data));
 }
 
@@ -49,11 +50,11 @@ export const editSubject = async (id, data) => {
         .then(res => res.data));
 }
 export const editLevel = async (id, data) => {
-    return await resolve(axios.put(`${apiBaseUrl}/api/editLevel/${id}`,data)
+    return await resolve(axios.put(`${apiBaseUrl}/api/editLevel/${id}`, data)
         .then(res => res.data));
 }
 
-export const toggleLevel = async (sId,lId,status) => {
+export const toggleLevel = async (sId, lId, status) => {
     return await resolve(axios.put(`${apiBaseUrl}/api/toggleLevel?subjectid=${sId}&levelId=${lId}&status=${status}`)
         .then(res => res.data));
 }
@@ -77,11 +78,10 @@ export const editVideoDocument = async (id, name, videoUrl, thumbUrl) => {
         name, videoUrl, thumbUrl
     }).then(res => res.data));
 }
+//////////////////////////////Quiz//////////////////////////////////////////////
 export const createQuiz = async (data) => {
-
     return await resolve(axios.post(`${apiBaseUrl}/api/createQuiz`, data)
         .then(res => res.data));
-
 }
 export const viewQuiz = async (params) => {
     return await resolve(axios.get(`${apiBaseUrl}/api/getQuiz?page=${params.page}&limit=${params.limit}&level=${params.level}&subject=${params.subject}`)

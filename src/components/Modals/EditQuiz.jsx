@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Col, Row, Button, Modal, FormGroup, ControlLabel, Image } from "react-bootstrap";
 import Card from '../Card/Card';
 import _ from 'lodash'
-import useForm from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import { uploadImage } from "../../api/api"
 import { ErrorToast } from "../../misc/helper";
 const EditQuiz = (prop) => {

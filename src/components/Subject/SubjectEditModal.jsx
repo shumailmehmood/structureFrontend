@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import useForm from "react-hook-form";
+import {useForm,Controller} from "react-hook-form";
 import { Modal } from 'react-bootstrap';
 import Button from "components/CustomButton/CustomButton.jsx";
-import { Grid, Col, FormGroup, ControlLabel, Row, Form } from "react-bootstrap";
+import { Grid, Col,  ControlLabel, Row, Form } from "react-bootstrap";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { editSubject } from '../../api/api';
+import Select from "react-select";
 let data
 function useOnMount(handler) {
     React.useEffect(handler, []);
@@ -27,7 +28,7 @@ function pivotData(data, size = data[Object.keys(data)[0]].length) {
             row[key] = value;
         }
         rows.push(row);
-    }
+    } 
     return rows;
 }
 
@@ -53,7 +54,7 @@ const SubjectEditModal = (props) => {
     const [size, setSize] = useState(props.doc.original.length);
     const [spinner, setSpinner] = useState(false);
     const [alert, setAlert] = useState(null);
-    const { handleSubmit, reset, register, errors } = useForm({ defaultValues });
+    const { handleSubmit, reset, register, errors, control } = useForm({ defaultValues });
 
 
     async function loadFromProps() {
@@ -104,12 +105,13 @@ const SubjectEditModal = (props) => {
         setAlert(null)
     }
     const onSubmit = async (values) => {
-        //setSpinner(true)
+        //setSpinner(true)  
         const rows = pivotData(values);
         let s = '';
         let ss = []
-        rows.map(e => e.subjectName !== undefined ? s += e.subjectName : null)
-        rows.map(e => e.level !== undefined ? ss.push({ "level": e.level }) : null)
+
+         s = values.subjectName 
+        rows.map(e => e.level !== undefined ? ss.push({ "level": e.level, "difficulty": e.difficulty.value }) : null)
 
         let response = await editSubject(props.doc.value, { name: s, subjectLevels: ss });
         if (response.error) {
@@ -120,22 +122,35 @@ const SubjectEditModal = (props) => {
             props.handleClose()
         }
     }
+    const options = [
+        { value: "Easy", label: "Easy" },
+        { value: "Medium", label: "Medium" },
+        { value: "Hard", label: "Hard" }
+      ];
+      const colourStyles = {
+        container: () => ({
+          width: 200,
+          flex: 1
+        }),
+        menu: styles => ({ ...styles, width: 200, flex: 1 })
+      };
     return (
         <div className="content">
                   {alert}
+                
             <Grid fluid>
                 <Row>
                     <Col>
                         <Col md={6} >
-                            <Modal show={props.show} onHide={props.handleClose}>
+                            <Modal show={props.show} onHide={props.handleClose} bsSize='lg'>
                                 <Form onSubmit={handleSubmit(onSubmit)}>
                                     <Modal.Header closeButton className="mdhead" style={{ backgroundColor: '#0F4B5F', color: '#E1FADF' }}>
                                         <Modal.Title><center>Edit Subject</center></Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
-                                        <FormGroup
-                                            validationState={errors.name && errors.name.message ? "error" : "success"}
-                                        >
+                                    <Row>
+                                       <Col md={3}>
+                                       <label htmlFor="subjectName" style={{ color: '#87cb16'  ,marginTop: "5"}}>Subject    </label>
                                             <ControlLabel>{props.doc.name}</ControlLabel>
                                             <input
                                                 name="subjectName"
@@ -144,28 +159,60 @@ const SubjectEditModal = (props) => {
                                                 placeholder="Enter your Subject Name"
                                                 className="form-control"
                                             />
-
-                                            {(errors.name && errors.name.message) && <small className="text-danger">{errors.name && errors.name.message}</small>}
-                                        </FormGroup>
+                                        </Col>                                       
+                                            </Row>
                                         {createArrayWithNumbers(size).map(number => {
                                             return (
                                                 <div key={number}>
-                                                    <label htmlFor="level" style={{ color: '#87cb16' }}>Level</label>
+                                                    
                                                     <Button style={{ marginTop: '25px', float: 'right' }} disabled={size==1 } bsStyle="info" type="button" fill wd onClick={() => warningWithConfirmMessage(number)}>
                                                         Remove Level
                                                     </Button>
                                                     {size-1 ===number ? <Button   style={{ marginTop: '25px', marginRight:'5px', float: 'right' }} bsStyle="danger" type="button" fill wd onClick={() => addLevel(document.getElementById(`level[${number}]`).value)}>
                                                         Add level
                                                     </Button> : null}
+                                                    <Row>
+                                                    <Col md={3}>
+                                                    <ControlLabel
+                                                        style={{ color: "#87cb16", marginBottom: "0" }}
+                                                    >Level </ControlLabel>
                                                     <input
-                                                        style={{ width: '250px' }}
+                                                        style={{ width: '150px'}}
                                                         name={`level[${number}]`}
                                                         id={`level[${number}]`}
                                                         placeholder="level"
                                                         ref={register}
                                                         className="form-control"
                                                     />
-
+                                                    </Col>
+                                            <Col md={3}>
+                                                <ControlLabel
+                                                        style={{ color: "#87cb16", marginBottom: "0" }}
+                                                    >
+                                                        Difficulty Level
+                                                    </ControlLabel>
+                                                    <Controller
+                                                        as={
+                                                        <Select
+                                                            options={options}
+                                                            styles={colourStyles}
+                                                        />
+                                                        }
+                                                        control={control}
+                                                        rules={{ required: true }}
+                                                        onChange={([selected]) => {
+                                                        // React Select return object instead of value for selection
+                                                        return { value: selected };
+                                                        }}
+                                                        name={`difficulty[${number}]`}
+                                                        id={`difficulty[${number}]`}                                                
+                                                        defaultValue={{
+                                                        value: props.doc.original.subjectLevels[number] ?props.doc.original.subjectLevels[number].difficulty:'Easy',
+                                                        label: props.doc.original.subjectLevels[number] ?props.doc.original.subjectLevels[number].difficulty:'Easy',
+                                                        }}
+                                                    />
+                                                    </Col>
+                                                    </Row>
                                                 </div>
                                             );
                                         })}

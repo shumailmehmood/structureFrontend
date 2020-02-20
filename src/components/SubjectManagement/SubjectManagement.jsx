@@ -57,6 +57,12 @@ const SubjectManagement = (prop) => {
             sortable: false
         },
         {
+            Header: "Difficulty Level",
+            accessor: prop => { return prop.difficulty },
+            id: 'difficulty',
+            sortable: false
+        },
+        {
             Header: "Show Ad",
             accessor: "showAd",
             sortable: false,

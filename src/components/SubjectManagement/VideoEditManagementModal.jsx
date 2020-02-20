@@ -1,4 +1,4 @@
-import useForm from "react-hook-form";
+import {useForm} from "react-hook-form";
 import { Modal } from 'react-bootstrap';
 import Button from "components/CustomButton/CustomButton.jsx";
 import { Grid, Col, FormGroup, ControlLabel, Row, Form } from "react-bootstrap";
