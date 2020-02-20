@@ -11,7 +11,7 @@ import querystring from "query-string";
 import _ from 'lodash'
 import Button from "components/CustomButton/CustomButton.jsx";
 import Card from '../Card/Card';
-import useForm from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import "../../assets/css/light-bootstrap-dashboard-pro-react.css"
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux'

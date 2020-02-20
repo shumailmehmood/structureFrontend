@@ -1,19 +1,18 @@
-import React, { useState,useEffect } from "react";
+import React, * as react from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Card from "components/Card/Card.jsx";
 import querystring from 'query-string';
 import Button from "../CustomButton/CustomButton.jsx";
 import { withRouter } from "react-router-dom";
-import { getSubjectInfo } from '../../api/api';
+import { getSubjectInfo, toggleLevel } from '../../api/api';
 import LevelEditModal from "./LevelEditModal";
+import Switch from "react-bootstrap-switch";
 const SubjectManagement = (prop) => {
-    //const [data] = useState(['Easy', 'Medium', 'Hard', 'Expert']);
-
-    const [data, setData] = useState([]);
-    const [showEdit, setShowEdit] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [doc, setDoc] = useState();
+    const [data, setData] = react.useState([]);
+    const [showEdit, setShowEdit] = react.useState(false);
+    const [loading, setLoading] = react.useState(false);
+    const [doc, setDoc] = react.useState();
     async function anyNameFunction() {
         setLoading(true)
         let response = await getSubjectInfo(querystring.parse(prop.location.search).id);
@@ -25,18 +24,28 @@ const SubjectManagement = (prop) => {
             setLoading(false)
         }
     }
-    useEffect(() => {
+    async function onToggle  (sid,lid,status) {
+        setLoading(true)
+        let response = await toggleLevel(sid,lid,status);
+        if (!response.data) {
+            anyNameFunction();
+        } else {
+            anyNameFunction();
+        }
+    }
+    react.useEffect(() => {
         anyNameFunction();
     }, []);
     function handleClose() {
         setShowEdit(false)
         anyNameFunction();
     }
-    function handleEdit(params,id) {
-        
-        let data={};
+    function handleEdit(params, id, sampleSize) {
+
+        let data = {};
         data.params = params
-        data.subjectID = id        
+        data.subjectID = id
+        data.sampleSize = sampleSize
         setShowEdit(true);
         setDoc(data)
     }
@@ -46,6 +55,32 @@ const SubjectManagement = (prop) => {
             accessor: prop => { return prop.level },
             id: 'level',
             sortable: false
+        },
+        {
+            Header: "Difficulty Level",
+            accessor: prop => { return prop.difficulty },
+            id: 'difficulty',
+            sortable: false
+        },
+        {
+            Header: "Show Ad",
+            accessor: "showAd",
+            sortable: false,
+            width: 80,
+            Cell: props => (
+                <div  >
+                    <Switch
+                        onChange={() => { onToggle(querystring.parse(prop.location.search).id, props.original._id,props.original.showAd) }}
+                        defaultValue={props.original.showAd}
+                    />
+                </div>
+            )
+        },
+        {
+            Header: "Sample Size",
+            accessor: prop => { return prop.sampleSize ? prop.sampleSize : '-'},
+            sortable: false,
+            id: 'sampleSize'
         },
         {
             Header: "Action",
@@ -68,14 +103,15 @@ const SubjectManagement = (prop) => {
                     </Button>
                     <Button
                         onClick={() => {
-                             handleEdit(props.original.level,querystring.parse(prop.location.search).id) }}
+                            handleEdit(props.original.level, querystring.parse(prop.location.search).id, props.original.sampleSize)
+                        }}
                         bsStyle="warning"
                         simple
                         icon
                     >
                         <i className="fa fa-edit" />
                     </Button>
-                    
+
                 </div>
             )
         }
