@@ -6,30 +6,27 @@ import CreateFrom from '../components/CreateQuizForm/CreateQuizForm';
 import ViewQuiz from "../components/ViewQuiz/ViewQuiz";
 const CreateQuiz = (props) => {
     const [showAdd, setshowAdd] = useState(false);
+    const [open, setOpen] = useState(false);
     function handleAddEdit() {
         setshowAdd(true);
     }
     function handleAddClose() {
         setshowAdd(false)
     }
+    const close = () => {
+        setOpen(true)
+    }
     return (
         <div>
             {showAdd ? <CreateFrom handleClose={handleAddClose} show={showAdd} /> : ''}
+
+
             <Card
                 content={
-                    <div>
+                    <div>                       
                         <Row>
                             <Col md={2}></Col>
-                            <Col md={8}>
-                                <Button  onClick={() => { handleAddEdit() }} className='btn-fill btn-wd btn btn-warning'>
-                                    Add Question
-                        </Button>
-                            </Col>
-                            <Col md={2}></Col>
-                        </Row>
-                        <Row>
-                            <Col md={2}></Col>
-                            <Col md={8}><ViewQuiz questionAdded={showAdd}/></Col>
+                            <Col md={8}><ViewQuiz open={open} close={close} questionAdded={showAdd} /></Col>
                             <Col md={2}></Col>
                         </Row>
                     </div>

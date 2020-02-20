@@ -17,12 +17,15 @@ import * as Apis from "../../api/api";
 import EditQuizModal from "../Modals/EditQuiz";
 import { SuccessfullToast, ErrorToast } from "../../misc/helper";
 import { createQuiz } from "../../api/api";
+import GenerateQuestions from '../Modals/AutoGenerate/AutoGenerate'
+import CreateFrom from '../CreateQuizForm/CreateQuizForm';
 function CreateQuizForm(prop) {
     const [dataDB, setDataDB] = useState([]);
     const [show, setShow] = useState(false);
+    const [showAdd, setShowAdd] = useState(false);
     const [editCounter, setEditCounter] = useState(false);
     const [selectedData, setSelectedData] = useState(false);
-
+    const [open, setOpen] = useState(false);
     useEffect(() => {
         getQuiz()
     }, [prop.questionAdded, editCounter])
@@ -43,7 +46,7 @@ function CreateQuizForm(prop) {
 
     }
     const { dispatch } = prop;
-    const copyQuestion = (index) => {    
+    const copyQuestion = (index) => {
         delete dataDB[index]._id;
         let submitData = {
             levelId: querystring.parse(prop.location.search).level,
@@ -57,7 +60,6 @@ function CreateQuizForm(prop) {
             } else {
                 getQuiz()
                 SuccessfullToast('Question Copied!')
-
             }
         })
     }
@@ -113,6 +115,20 @@ function CreateQuizForm(prop) {
                     update={update}
                 />
                 : null}
+            <Row>
+                <Col md={2}></Col>
+                <Col md={4}> <Button onClick={() => setShowAdd(true)} className='btn-fill btn-wd btn btn-warning'>
+                    Add Question
+                                </Button></Col>
+                <Col md={2}></Col>
+                <Col md={4}>
+                    <Button onClick={() => setOpen(true)} className='btn-fill btn-wd btn btn-warning'>
+                        Generate Question
+                                </Button>
+                </Col>
+            </Row>
+            <CreateFrom handleClose={() => setShowAdd(false)} show={showAdd} />
+            <GenerateQuestions dbData={dataDB} getQuiz={getQuiz} show={open} handleClose={()=>setOpen(false)} />
             {dataDB.length ?
                 dataDB.map((row, index) => (
                     <Card

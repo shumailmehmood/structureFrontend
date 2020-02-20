@@ -44,8 +44,7 @@ function CreateQuizForm(prop) {
             levelId: querystring.parse(prop.location.search).level,
             questions: data.questions,
             subject: querystring.parse(prop.location.search).id,
-
-        };
+        };       
 
         createQuiz(submitData).then(res => {
             if (res.error) {
