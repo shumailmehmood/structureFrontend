@@ -1,5 +1,5 @@
 import React from 'react';
-import useForm from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import { Modal, Row, Col, FormGroup } from 'react-bootstrap';
 import { GenerateAutoMcqs } from "../../../misc/helper"
 import querystring from "query-string";

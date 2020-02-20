@@ -15,8 +15,8 @@ const Subject = props => {
     setSpinner(true);
     let data= {};
     data.name = values.name
-    data.SubjectLevels = []
-    values.SubjectLevels.map(e =>data.SubjectLevels.push({level:e.level,difficulty:e.difficulty.value})) 
+    data.SubjectLevels = []    
+    values.SubjectLevels.map(e =>data.SubjectLevels.push({level:e.level,difficulty:e.difficulty?e.difficulty.value:e.value})) 
     
     let response = await createSubject(data);
     if (response.error) {

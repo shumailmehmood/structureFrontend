@@ -18,9 +18,11 @@ import * as Apis from "../../api/api";
 import EditQuizModal from "../Modals/EditQuiz";
 import { SuccessfullToast, ErrorToast } from "../../misc/helper";
 import { createQuiz } from "../../api/api";
-
+import CreateFrom from '../CreateQuizForm/CreateQuizForm';
+import GenerateQuestions from "../Modals/AutoGenerate/AutoGenerate"
 function CreateQuizForm(prop) {
     const [dataDB, setDataDB] = useState([]);
+    const [showAdd, setShowAdd] = useState(false);
     const [show, setShow] = useState(false);
     const [alert, setAlert] = useState(null);
     const [editCounter, setEditCounter] = useState(false);
