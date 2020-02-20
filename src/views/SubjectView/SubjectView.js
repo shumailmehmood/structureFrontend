@@ -1,5 +1,5 @@
 import React from "react";
-import Subject from '../../components/Subject/Subject.jsx'
+import Subject from '../../components/Subject/AddSubjectModal.jsx'
 import SubjectTable from '../../components/Subject/SubjectTable'
 const SubjectView = () => {
      

@@ -13,8 +13,7 @@ const AccessTokenModal = (props) => {
         defaultValues: defaultVal
     });
     useEffect(() => {
-        let data = {};
-        console.log(props.doc)
+        let data = {};        
         data[RemoveInternalSpaces(props.doc.name)] = props.doc.value
         setDefaultVal(data)
     }, [])

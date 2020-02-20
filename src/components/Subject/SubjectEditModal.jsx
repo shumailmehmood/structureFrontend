@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useForm from "react-hook-form";
 import { Modal } from 'react-bootstrap';
 import Button from "components/CustomButton/CustomButton.jsx";
 import { Grid, Col, FormGroup, ControlLabel, Row, Form } from "react-bootstrap";
-
+import SweetAlert from "react-bootstrap-sweetalert";
 import { editSubject } from '../../api/api';
 let data
 function useOnMount(handler) {
@@ -52,10 +52,11 @@ const SubjectEditModal = (props) => {
     }
     const [size, setSize] = useState(props.doc.original.length);
     const [spinner, setSpinner] = useState(false);
+    const [alert, setAlert] = useState(null);
     const { handleSubmit, reset, register, errors } = useForm({ defaultValues });
 
 
-    async function loadFromServer() {
+    async function loadFromProps() {
 
         setSize(props.doc.original.subjectLevels.length);
         data = await unpivotData(props.doc.original.subjectLevels, dataKeys);
@@ -65,29 +66,52 @@ const SubjectEditModal = (props) => {
         }
         else { console.log("LOADING: ", data); }
     }
-    const handleReset = () => {
+    const removeLevel = (index) => {       
+        let lol = data.level.filter((item, e) => e !== index);
+        data.level = lol
+        setSize(size - 1)
+        reset(data);
+        setAlert(null)
+    };
+    const addLevel = (a) => {       
+       data.level.indexOf(a) === -1 ? data.level.push(a) : console.log("This level already exists");
+        setSize(size + 1)        
         reset(data);
     };
     // Instead of using defaultValues, I'd actually like to load data here...
     useOnMount(() => {
-        loadFromServer();
+        loadFromProps();
     });
-
+    const warningWithConfirmMessage = (val) => {
+        setAlert(
+            <SweetAlert
+                warning
+                style={{ display: "block", marginTop: "-100px" }}
+                title="Are you sure?"
+                onConfirm={() => removeLevel(val)}
+                onCancel={() => hideAlert()}
+                confirmBtnBsStyle="info"
+                cancelBtnBsStyle="danger"
+                confirmBtnText="Yes, delete it!"
+                cancelBtnText="Cancel"
+                showCancel
+            >
+                You will not be able to recover this!
+            </SweetAlert>
+        );
+    }
+    const hideAlert = () => {
+        setAlert(null)
+    }
     const onSubmit = async (values) => {
         //setSpinner(true)
         const rows = pivotData(values);
         let s = '';
         let ss = []
-        rows.map(e => { return e.subjectName != undefined ? s += e.subjectName : null })
-        rows.map(e => {
-            if (e.level != undefined) {
-                var newData = { "level": e.level };
-                return ss.push(newData);
-            }
-        })        
-        data = { name: s, subjectLevels: ss }
+        rows.map(e => e.subjectName !== undefined ? s += e.subjectName : null)
+        rows.map(e => e.level !== undefined ? ss.push({ "level": e.level }) : null)
 
-        let response = await editSubject(props.doc.value,data);
+        let response = await editSubject(props.doc.value, { name: s, subjectLevels: ss });
         if (response.error) {
             setSpinner(false)
             props.handleClose()
@@ -98,6 +122,7 @@ const SubjectEditModal = (props) => {
     }
     return (
         <div className="content">
+                  {alert}
             <Grid fluid>
                 <Row>
                     <Col>
@@ -125,24 +150,25 @@ const SubjectEditModal = (props) => {
                                         {createArrayWithNumbers(size).map(number => {
                                             return (
                                                 <div key={number}>
-                                                    <label htmlFor="level" style={{color:'#87cb16'}}>Level</label>
+                                                    <label htmlFor="level" style={{ color: '#87cb16' }}>Level</label>
+                                                    <Button style={{ marginTop: '25px', float: 'right' }} disabled={size==1 } bsStyle="info" type="button" fill wd onClick={() => warningWithConfirmMessage(number)}>
+                                                        Remove Level
+                                                    </Button>
+                                                    {size-1 ===number ? <Button   style={{ marginTop: '25px', marginRight:'5px', float: 'right' }} bsStyle="danger" type="button" fill wd onClick={() => addLevel(document.getElementById(`level[${number}]`).value)}>
+                                                        Add level
+                                                    </Button> : null}
                                                     <input
+                                                        style={{ width: '250px' }}
                                                         name={`level[${number}]`}
+                                                        id={`level[${number}]`}
                                                         placeholder="level"
                                                         ref={register}
                                                         className="form-control"
-                                                    />                                                 
-                                                    <hr />
+                                                    />
+
                                                 </div>
                                             );
                                         })}
-
-                                        <Button style={{margin:'10px'}}      bsStyle="danger" type="button" fill wd onClick={() => setSize(size + 1)}>
-                                            Add level
-                                          </Button>
-                                        <Button style={{margin:'10px'}}      bsStyle="info" type="button"  fill wd onClick={() => setSize(size - 1)}>
-                                            Remove Level
-                                         </Button>
                                         <div style={{ color: "red" }}>
                                             {Object.keys(errors).length > 0 &&
                                                 "There are errors, check your console."}

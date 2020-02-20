@@ -6,6 +6,7 @@ import {
     ControlLabel,
     Image
 } from "react-bootstrap";
+import SweetAlert from "react-bootstrap-sweetalert";
 import querystring from "query-string";
 import Button from "components/CustomButton/CustomButton.jsx";
 import Card from '../Card/Card';
@@ -17,12 +18,11 @@ import * as Apis from "../../api/api";
 import EditQuizModal from "../Modals/EditQuiz";
 import { SuccessfullToast, ErrorToast } from "../../misc/helper";
 import { createQuiz } from "../../api/api";
-import GenerateQuestions from '../Modals/AutoGenerate/AutoGenerate'
-import CreateFrom from '../CreateQuizForm/CreateQuizForm';
+
 function CreateQuizForm(prop) {
     const [dataDB, setDataDB] = useState([]);
     const [show, setShow] = useState(false);
-    const [showAdd, setShowAdd] = useState(false);
+    const [alert, setAlert] = useState(null);
     const [editCounter, setEditCounter] = useState(false);
     const [selectedData, setSelectedData] = useState(false);
     const [open, setOpen] = useState(false);
@@ -46,6 +46,27 @@ function CreateQuizForm(prop) {
 
     }
     const { dispatch } = prop;
+    const warningWithConfirmMessage = (id) => {
+        setAlert(
+            <SweetAlert
+                warning
+                style={{ display: "block", marginTop: "-100px" }}
+                title="Are you sure?"
+                onConfirm={() => removeCard(id)}
+                onCancel={() => hideAlert()}
+                confirmBtnBsStyle="info"
+                cancelBtnBsStyle="danger"
+                confirmBtnText="Yes, delete it!"
+                cancelBtnText="Cancel"
+                showCancel
+            >
+                You will not be able to recover this!
+            </SweetAlert>
+        );
+    }
+    const hideAlert = () => {
+        setAlert(null)
+    }
     const copyQuestion = (index) => {
         delete dataDB[index]._id;
         let submitData = {
@@ -98,6 +119,7 @@ function CreateQuizForm(prop) {
         dispatch(Actions.remove_question(submit)).then(res => {
             if (res) {
                 SuccessfullToast('Deleted Successfully!')
+                setAlert(null)
                 getQuiz();
             }
         })
@@ -107,6 +129,7 @@ function CreateQuizForm(prop) {
     }
     return (
         <div>
+            {alert}
             {show ?
                 <EditQuizModal
                     show={show}
@@ -223,7 +246,7 @@ function CreateQuizForm(prop) {
                                 <Row>
                                     <Col md={2}></Col>
                                     <Col md={3}><Button onClick={() => editCard(row)}>Edit</Button></Col>
-                                    <Col md={3}><Button onClick={() => removeCard(row._id)}>Delete</Button></Col>
+                                    <Col md={3}><Button onClick={() => warningWithConfirmMessage(row._id)}>Delete</Button></Col>
                                     <Col md={3}><Button onClick={() => copyQuestion(index)}>Copy</Button></Col>
 
                                     <Col md={1}></Col>

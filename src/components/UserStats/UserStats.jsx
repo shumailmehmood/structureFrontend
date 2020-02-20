@@ -7,7 +7,6 @@ import { Grid, Row, Col } from "react-bootstrap";
 import Select from 'react-select';
 import _ from 'lodash';
 
-import {table_data} from "variables/Variables.jsx";
 const UserStats = () => {
     const [data, setData] = useState([]);
     const [options, setOptions] = useState();
