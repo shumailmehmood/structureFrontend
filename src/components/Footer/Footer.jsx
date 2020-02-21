@@ -47,11 +47,11 @@ class Footer extends Component {
               </li>
             </ul>
           </nav> */}
-          <p className="copyright pull-right">
+          {/* <p className="copyright pull-right">
             &copy; {1900 + new Date().getYear()}{" "}
             <a href="/" target="_blank">Immentia</a>, made with{" "}
             <i className="fa fa-heart heart" /> for a better web
-          </p>
+          </p> */}
         </div>
       </footer>
     );

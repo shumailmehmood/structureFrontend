@@ -10,3 +10,6 @@ export const ThreeDigitNumber={
     start:100,
     end:999
 }
+export const REG_BTN_NAME="Register"
+export const SEARCH_BARCODE_BTN_NAME="Search Manually"
+export const CHECKOUT_BTN_NAME="Checkout"

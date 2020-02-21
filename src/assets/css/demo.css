@@ -93,3 +93,9 @@
         transform: scale(0.75);
     }
 }
+.mdhead{
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}

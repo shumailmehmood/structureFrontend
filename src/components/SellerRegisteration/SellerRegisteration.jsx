@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {   
     FormGroup, ControlLabel   
 } from "react-bootstrap";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { useForm } from 'react-hook-form';
 import "../../assets/css/light-bootstrap-dashboard-pro-react.css"
+import { REG_BTN_NAME } from "../../misc/constants";
 function SellerRegisteration(props) {
+    const [loading, setLoading] = useState(false)
       const {
         register,
         handleSubmit,
@@ -54,9 +56,8 @@ function SellerRegisteration(props) {
                             placeholder="Enter Address"
                         />
                     </FormGroup>        
-                <Button type="submit" >
-                    {" "}
-                    {dirty ? "ADD" : "ADD"}
+                    <Button type="submit" className="btn-fill" onClick={() => setLoading(true)} >
+                    {loading ?<div><span>loading...</span><i className="fa fa-spin fa-spinner"/></div> : REG_BTN_NAME}
                 </Button>
 
             </form>
