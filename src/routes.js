@@ -5,6 +5,7 @@ import SubjectView from "views/SubjectView/SubjectView.js";
 import SubjectManagementView from "views/SubjectManagementView/SubjectManagementView";
 import UserStatsView from "views/UserStatsView/UserStatsView";
 import Quiz from './views/CreateQuiz';
+import Registeration from "./views/Registeration/Registeration"
 // import ViewQuiz from './components/ViewQuiz/ViewQuiz';
 
 var dashboardRoutes = [
@@ -41,6 +42,13 @@ var dashboardRoutes = [
     name: " Quiz",
     component: Quiz,
     hideself: true
+  },
+  {
+    path: "/registeration",
+    layout: "/admin",
+    name: "Registeration",
+    component: Registeration,
+    icon: "pe-7s-add-user"
   }
 
 ];

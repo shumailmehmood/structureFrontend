@@ -38,24 +38,24 @@ import {useForm} from "react-hook-form";
 
 function Login(props) {
 
-  const { setAuthTokens, authTokens } = useAuth();
+  // const { setAuthTokens, authTokens } = useAuth();
   const [serverError, setServerError] = useState();
 
   const { handleSubmit, register, errors } = useForm();
   const onSubmit = async (values) => {
-    setServerError(null);
-    let response = await login(values.email, values.password);
-    console.log(response);
-    if (response.error) {
-      setServerError(response.error.message);
-    } else {
-      setAuthTokens({ access_token: response.data.user.token });
-    }
+    // setServerError(null);
+    // let response = await login(values.email, values.password);
+    // console.log(response);
+    // if (response.error) {
+    //   setServerError(response.error.message);
+    // } else {
+    //   setAuthTokens({ access_token: response.data.user.token });
+    // }
 
   }
-
+//authTokens && authTokens.access_token
   return (
-    authTokens && authTokens.access_token ? <Redirect to="/" /> :
+    true ? <Redirect to="/" /> :
       <div className="content">
         <Grid fluid>
           <Row>
@@ -68,50 +68,7 @@ function Login(props) {
                     <Form onSubmit={handleSubmit(onSubmit)}>
 
 
-                      {/* 
-                      <FormGroup
-                        validationState={errors.email && errors.email.message ? "error" : "success"}
-                      >
-                        <ControlLabel>Email address</ControlLabel>
-                        <FormControl placeholder="Enter email"
-                          name="email"
-                          type="text"
-                          placeholder="Enter your email"
-                          ref={register({
-                            required: 'Required',
-                            pattern: {
-                              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                              message: "invalid email address"
-                            }
-                          })}
-                          className={errors.email && errors.email.message && "error"}
-                        />
-
-                        {(errors.email && errors.email.message) && <small className="text-danger">{errors.email && errors.email.message}</small>}
-
-
-                      </FormGroup>
-
-
-                      <FormGroup
-                        validationState={errors.password && errors.password.message ? "error" : "success"}
-                      >
-                        <ControlLabel>Password</ControlLabel>
-                        <FormControl placeholder="Enter password"
-                          name="password"
-                          type="text"
-                          placeholder="Enter your password"
-                          ref={register({
-                            required: 'Required',
-
-                          })}
-                          className={errors.password && errors.password.message && "error"}
-                        />
-
-                        {(errors.password && errors.password.message) && <small className="text-danger">{errors.password && errors.password.message}</small>}
-
-
-                      </FormGroup> */}
+                     
                       <small className="text-danger">{serverError || null}</small>
                       <FormGroup
                         validationState={errors.email && errors.email.message ? "error" : "success"}

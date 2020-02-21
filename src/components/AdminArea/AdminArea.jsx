@@ -5,7 +5,7 @@
  import { NavLink } from "react-router-dom";
 class AdminArea extends Component {
     createTableData() {
-        var tableRows = [];
+        var tableRows = [];  
         for (var i = 0; i < table_data.length; i++) {
             tableRows.push(
                 <tr key={i}>

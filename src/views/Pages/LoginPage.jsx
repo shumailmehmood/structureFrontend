@@ -71,7 +71,7 @@ class LoginPage extends Component {
                 }
                 legend={
                   <Button bsStyle="info" fill wd>
-                    Login
+                    Login button
                   </Button>
                 }
                 ftTextCenter

@@ -4,7 +4,7 @@ import PrivateRoute from 'components/PrivateRoute/PrivateRoute';
 import { AuthContext } from 'context/auth';
 import AdminLayout from "layouts/Admin.jsx";
 import AccountLayout from "layouts/Account.jsx";
-import {setAxiosAuthorizationHeader} from 'axiosConfig';
+import { setAxiosAuthorizationHeader } from 'axiosConfig';
 
 function App(props) {
     const setTokensFromLocalStorage = () => {
@@ -20,7 +20,7 @@ function App(props) {
         }
 
     }
-  
+
     const [authTokens, setAuthTokens] = useState(setTokensFromLocalStorage());
 
     const setTokens = (data) => {
@@ -29,16 +29,15 @@ function App(props) {
         setAuthTokens(data);
     }
 
+    // <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
+    // </AuthContext.Provider>
+    return <BrowserRouter>
+        <Switch>
+            <PrivateRoute path="/admin" component={props => <AdminLayout {...props} />} />
+            <Route path="/account" component={props => <AccountLayout {...props} />} />
+            <Redirect from="/" to="/admin/UserStatsView" />
+        </Switch>
+    </BrowserRouter>
 
-
-    return <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
-        <BrowserRouter>
-            <Switch>
-                <PrivateRoute path="/admin" component={props => <AdminLayout {...props} />} />
-                <Route path="/account" component={props => <AccountLayout {...props} />} />
-                <Redirect from="/" to="/admin/UserStatsView" />
-            </Switch>
-        </BrowserRouter>
-    </AuthContext.Provider>
 }
 export default App;
