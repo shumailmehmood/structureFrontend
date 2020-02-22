@@ -6,7 +6,11 @@ import {
 import Button from "components/CustomButton/CustomButton.jsx";
 import { useForm } from 'react-hook-form';
 import "../../assets/css/light-bootstrap-dashboard-pro-react.css"
-import { REG_BTN_NAME } from "../../misc/constants";
+import { REG_BTN_NAME ,REG_SUCCESS} from "../../misc/constants";
+import { createCompany } from "../../api/api"
+import { SuccessfullToast, ErrorToast } from "../../misc/helper"
+
+
 function CompanyRegisteration(props) {
     const [loading, setLoading] = useState(false)
     const {
@@ -15,7 +19,17 @@ function CompanyRegisteration(props) {
         formState: { dirty },
     } = useForm();
     const onSubmit = (data) => {
-        console.log(data);
+        console.log(data)
+        createCompany(data).then(res => {
+            if (res.error) {
+                setLoading(false)
+                console.log(res)
+                ErrorToast(res.error.response.data);
+            } else {
+                SuccessfullToast(REG_SUCCESS)
+                setLoading(false)
+            }
+        })
     };
     return (
         <div>
@@ -31,7 +45,7 @@ function CompanyRegisteration(props) {
                     />
                 </FormGroup>
                 <Button type="submit" className="btn-fill" onClick={() => setLoading(true)} >
-                {loading ?<div><span>loading...</span><i className="fa fa-spin fa-spinner"/></div> : REG_BTN_NAME}
+                    {loading ? <div><span>loading...</span><i className="fa fa-spin fa-spinner" /></div> : REG_BTN_NAME}
                 </Button>
 
             </form>

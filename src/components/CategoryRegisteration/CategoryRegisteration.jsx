@@ -6,7 +6,9 @@ import {
 import Button from "components/CustomButton/CustomButton.jsx";
 import { useForm } from 'react-hook-form';
 import "../../assets/css/light-bootstrap-dashboard-pro-react.css"
-import { REG_BTN_NAME } from "../../misc/constants";
+import { REG_BTN_NAME ,REG_SUCCESS} from "../../misc/constants";
+import { createCategory } from "../../api/api"
+import { SuccessfullToast, ErrorToast } from "../../misc/helper"
 function CategoryRegisteration(props) {
     const [loading, setLoading] = useState(false)
     const {
@@ -15,7 +17,15 @@ function CategoryRegisteration(props) {
         formState: { dirty },
     } = useForm();
     const onSubmit = (data) => {
-
+        createCategory(data).then(res => {
+            if (res.error) {
+                setLoading(false)
+                ErrorToast(res.error.response.data);
+            } else {
+                SuccessfullToast(REG_SUCCESS)
+                setLoading(false)
+            }
+        })
     };
     return (
         <div>
@@ -31,7 +41,7 @@ function CategoryRegisteration(props) {
                     />
                 </FormGroup>
                 <Button type="submit" className="btn-fill" onClick={() => setLoading(true)} >
-                {loading ?<div><span>loading...</span><i className="fa fa-spin fa-spinner"/></div> : REG_BTN_NAME}
+                    {loading ? <div><span>loading...</span><i className="fa fa-spin fa-spinner" /></div> : REG_BTN_NAME}
                 </Button>
             </form>
 

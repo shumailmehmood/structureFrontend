@@ -13,3 +13,5 @@ export const ThreeDigitNumber={
 export const REG_BTN_NAME="Register"
 export const SEARCH_BARCODE_BTN_NAME="Search Manually"
 export const CHECKOUT_BTN_NAME="Checkout"
+export const UPDATE_STOCK_BTN_NAME="Add"
+export const REG_SUCCESS="Registered SuccessFully"

@@ -13,6 +13,7 @@
     "perfect-scrollbar": "1.4.0",
     "query-string": "^6.11.0",
     "react": "16.8.6",
+    "react-barcode-reader": "0.0.1",
     "react-big-calendar": "0.20.4",
     "react-bootstrap": "0.32.4",
     "react-bootstrap-sweetalert": "4.4.1",

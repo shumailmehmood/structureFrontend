@@ -3,8 +3,8 @@ import axios from 'axios';
 import resolve from './resolve';
 require('dotenv').config()
 
-let apiBaseUrl = 'https://quizhooapi.appsace.com/';
-// let apiBaseUrl = 'http://localhost:3001';
+// let apiBaseUrl = 'http://loca';
+let apiBaseUrl = 'http://localhost:4000';
 
 export const testAuth = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/profile`).then(res => res.data));
@@ -24,80 +24,41 @@ export const login = async (email, password) => {
         console.log(err)
     }
 }
-//////////////////////////////SUBJECT//////////////////////////////////////////////
-export const createSubject = async (name) => {
-    return await resolve(axios.post(`${apiBaseUrl}/api/createSubject`, name)
+//////////////////////////////POST//////////////////////////////////////////////
+export const createCategory = async (data) => {
+    return await resolve(axios.post(`${apiBaseUrl}/api/v1/registerCategory`, data)
+        .then(res => res.data));
+}
+export const createCompany = async (data) => {
+    return await resolve(axios.post(`${apiBaseUrl}/api/v1/registerCompany`, data)
+        .then(res => res.data));
+}
+export const createSeller = async (data) => {
+    return await resolve(axios.post(`${apiBaseUrl}/api/v1/registerSeller`, data)
+        .then(res => res.data));
+}
+export const createItem = async (data) => {
+    return await resolve(axios.post(`${apiBaseUrl}/api/v1/registerItem`, data)
         .then(res => res.data));
 }
 
-export const getSubjects = async () => {
-    return await resolve(axios.get(`${apiBaseUrl}/api/getSubjects`)
+//==========================GET========================//
+export const getAllCategories = async () => {
+    return await resolve(axios.get(`${apiBaseUrl}/api/v1/getAllCategories`)
+        .then(res => res.data));
+}
+export const getAllSellers = async () => {
+    return await resolve(axios.get(`${apiBaseUrl}/api/v1/getAllSellers`)
+        .then(res => res.data));
+}
+export const getAllCompanies = async () => {
+    return await resolve(axios.get(`${apiBaseUrl}/api/v1/getAllCompanies`)
+        .then(res => res.data));
+}
+export const getStock = async () => {
+    return await resolve(axios.get(`${apiBaseUrl}/api/v1/getSearchItems`)
         .then(res => res.data));
 }
 
-export const getSubjectInfo = async (id) => {
-    return await resolve(axios.get(`${apiBaseUrl}/api/getSubjectInfo/` + id)
-        .then(res => res.data));
-}
-
-export const getSpecificSubject = async (subjectId) => {
-    return await resolve(axios.get(`${apiBaseUrl}/api/getSubjects?subjectId=${subjectId}`)
-        .then(res => res.data));
-}
-
-export const editSubject = async (id, data) => {
-    return await resolve(axios.put(`${apiBaseUrl}/api/editSubject/${id}`, data)
-        .then(res => res.data));
-}
-export const editLevel = async (id, data) => {
-    return await resolve(axios.put(`${apiBaseUrl}/api/editLevel/${id}`, data)
-        .then(res => res.data));
-}
-
-export const toggleLevel = async (sId, lId, status) => {
-    return await resolve(axios.put(`${apiBaseUrl}/api/toggleLevel?subjectid=${sId}&levelId=${lId}&status=${status}`)
-        .then(res => res.data));
-}
-
-export const deactivateSubject = async (id, name) => {
-    return await resolve(axios.put(`${apiBaseUrl}/api/deactivateSubject/${id}`)
-        .then(res => res.data));
-}
-//////////////////////////////VIDEO//////////////////////////////////////////////
-export const getVideoDocuments = async (subjectId) => {
-    return await resolve(axios.get(`${apiBaseUrl}/api/getVideoDocuments?subjectId=${subjectId}`)
-        .then(res => res.data));
-}
-export const createVideoDocument = async (subjectId, name, videoUrl, thumbUrl) => {
-    return await resolve(axios.post(`${apiBaseUrl}/api/createVideoDocument`, {
-        subjectId, name, videoUrl, thumbUrl
-    }).then(res => res.data));
-}
-export const editVideoDocument = async (id, name, videoUrl, thumbUrl) => {
-    return await resolve(axios.put(`${apiBaseUrl}/api/editVideoDocument/${id}`, {
-        name, videoUrl, thumbUrl
-    }).then(res => res.data));
-}
-//////////////////////////////Quiz//////////////////////////////////////////////
-export const createQuiz = async (data) => {
-    return await resolve(axios.post(`${apiBaseUrl}/api/createQuiz`, data)
-        .then(res => res.data));
-}
-export const viewQuiz = async (params) => {
-    return await resolve(axios.get(`${apiBaseUrl}/api/getQuiz?page=${params.page}&limit=${params.limit}&level=${params.level}&subject=${params.subject}`)
-        .then(res => res.data));
-}
-export const removeQuiz = async (params) => {
-    return await resolve(axios.get(`${apiBaseUrl}/api/deleteQuizQuestion?level=${params.level}&subjectId=${params.subject}&questionId=${params.id}`)
-        .then(res => res.data));
-}
-export const editQuiz = async (params, body) => {
-    return await resolve(axios.post(`${apiBaseUrl}/api/editQuiz?level=${params.level}&subjectId=${params.subject}&questionId=${params.id}`, body)
-        .then(res => res.data));
-}
-export const uploadImage = async (body, config) => {
-    return await resolve(axios.post(`${apiBaseUrl}/uploadimage`, body, config)
-        .then(res => res.data));
-}
 
 

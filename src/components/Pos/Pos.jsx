@@ -8,9 +8,11 @@ import Card from "../Card/Card"
 import Button from "../CustomButton/CustomButton.jsx";
 import { SEARCH_BARCODE_BTN_NAME, CHECKOUT_BTN_NAME } from "../../misc/constants"
 import SearchBarCode from "../Modals/SearchBarCode"
-
+import BarcodeReader from 'react-barcode-reader'
+import QuantityUpdate from "../Modals/QuantityUpdate";
 const Pos = (props) => {
     const [open, setOpen] = useState(false)
+
     let data = [];
     const columns = [
         {
@@ -39,6 +41,7 @@ const Pos = (props) => {
             sortable: false
         }
     ]
+
     return (
         <div>
             <SearchBarCode show={open} handleClose={() => setOpen(false)} />
@@ -55,6 +58,7 @@ const Pos = (props) => {
                                                 type="text"
                                                 className={"form-control"}
                                                 placeholder="Barcode"
+                                                onChange={(e) => console.log(e)}
                                             />
                                         </FormGroup>
 

@@ -8,6 +8,7 @@ import Category from '../../components/CategoryRegisteration/CategoryRegisterati
 import Company from '../../components/CompanyRegisteration/CompanyReg'
 import Seller from '../../components/SellerRegisteration/SellerRegisteration'
 import Item from '../../components/ItemRegisterationForm/ItemRegisterationForm'
+
 function Registeration(props) {
     return (
         <div>
