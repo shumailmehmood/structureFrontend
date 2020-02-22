@@ -5,19 +5,22 @@ import Button from "../CustomButton/CustomButton"
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { useForm } from 'react-hook-form';
+import { updateSeller } from '../../api/api';
+import { ErrorToast, SuccessfullToast } from "../../misc/helper";
 const EditQuiz = (prop) => {
     const [edit, setEdit] = useState(false);
+
     let data = [{
-        name: 'Sadiq',
-        pNumber: 'Sadiq',
-        cnic: 'Sadiq',
+        name: prop.seller.name,
+        pNumber: prop.seller.phoneNo,
+        cnic: prop.seller.cnic,
     }];
     const columns = [
         {
             Header: "Name",
             accessor: "name",
             sortable: false,
-            filterable: true
+
         },
         {
             Header: "CNIC",
@@ -56,10 +59,12 @@ const EditQuiz = (prop) => {
                                         {edit ? <EditForm edit={() => setEdit(false)} defaultProp={prop} /> :
                                             <ReactTable
                                                 data={data}
+                                                filterable={false}
                                                 columns={columns}
+                                                showPaginationBottom={false}
                                                 loading={false}
                                                 className="-striped -highlight"
-                                                defaultPageSize={10}
+                                                defaultPageSize={1}
                                             />
                                         }
                                     </div>
@@ -83,13 +88,24 @@ const EditForm = (props) => {
         handleSubmit,
     } = useForm({
         defaultValues: {
-            'name': 'shumail',
-            'phone': '123',
-            'cnic': '456'
+            'name': props.defaultProp.seller.name,
+            'phone': props.defaultProp.seller.phoneNo,
+            'cnic': props.defaultProp.seller.cnic
         }
     });
     const onSubmit = (data) => {
-        console.log(data);
+
+        updateSeller(props.defaultProp.seller._id, data).then(res => {
+            if (res.error) {
+                setLoad(false)
+                ErrorToast(res.error.response.data);
+            } else {
+                props.defaultProp.handleClose();
+                SuccessfullToast("Updated")
+                setLoad(false)
+                props.edit()
+            }
+        })
     }
     return (
         <div>
@@ -118,15 +134,10 @@ const EditForm = (props) => {
                         className={"form-control"}
                     />
                 </FormGroup>
-                <Button type="submit" className="btn-fill" onClick={() => {
-                    props.edit()
-                    setLoad(true)
-                }
-
-                } >
+                <Button type="submit" className="btn-fill" >
                     {load ? <div><span>loading...</span><i className="fa fa-spin fa-spinner" /></div> : "Update Seller Info"}
                 </Button>
             </form>
-        </div>
+        </div >
     )
 }

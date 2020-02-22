@@ -10,10 +10,13 @@ import { SEARCH_BARCODE_BTN_NAME, CHECKOUT_BTN_NAME } from "../../misc/constants
 import SearchBarCode from "../Modals/SearchBarCode"
 import BarcodeReader from 'react-barcode-reader'
 import QuantityUpdate from "../Modals/QuantityUpdate";
+import { getSale } from "../../api/api"
+import { ErrorToast } from "../../misc/helper"
 const Pos = (props) => {
     const [open, setOpen] = useState(false)
+    const [barcode, setBarcode] = useState('')
+    const [data, setData] = useState([])
 
-    let data = [];
     const columns = [
         {
             Header: "Barcode",
@@ -41,6 +44,19 @@ const Pos = (props) => {
             sortable: false
         }
     ]
+    const find = (barcode) => {
+        data.map((element, i) => {
+            if (Object.values(element).indexOf(barcode) > -1) {
+                console.log('has test1');
+                let inc = data[i].quantity++
+                data[i].quantity = inc;
+                data[i].amount = inc * +data[i].amount;
+
+                return true
+            }
+        })
+        return false
+    }
 
     return (
         <div>
@@ -58,7 +74,32 @@ const Pos = (props) => {
                                                 type="text"
                                                 className={"form-control"}
                                                 placeholder="Barcode"
-                                                onChange={(e) => console.log(e)}
+                                                onChange={(e) => setBarcode(e.target.value)}
+                                                onKeyPress={event => {
+                                                    if (event.keyCode === 13 || event.which === 13) {
+                                                        if (!find(barcode)) {
+                                                            getSale(barcode).then(res => {
+                                                                if (res.error) {
+                                                                    ErrorToast(res.error.response.data);
+                                                                } else {
+                                                                    let returnData = res.data;
+                                                                    let obj = {
+                                                                        barcode: returnData.barcode,
+                                                                        name: returnData.name,
+                                                                        quantity: 1,
+                                                                        price: returnData.salePrice,
+                                                                        amount: (1 * +returnData.salePrice)
+                                                                    }
+                                                                    let state = data;
+                                                                    state.push(obj);
+                                                                    console.log("1",state)
+                                                                    setData(state);
+                                                                }
+                                                            })
+                                                        }
+                                                        console.log("Data", data)
+                                                    }
+                                                }}
                                             />
                                         </FormGroup>
 

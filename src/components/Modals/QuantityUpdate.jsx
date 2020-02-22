@@ -3,8 +3,23 @@ import { Col, Row, Modal, FormGroup } from "react-bootstrap";
 import Card from '../Card/Card';
 import Button from "components/CustomButton/CustomButton";
 import { UPDATE_STOCK_BTN_NAME } from "../../misc/constants";
+import { updateStock } from "../../api/api"
+import { ErrorToast, SuccessfullToast } from "../../misc/helper"
 const EditQuiz = (prop) => {
     const [loading, setLoading] = useState(false)
+    const [value, setValue] = useState(0)
+    onsubmit = () => {
+        setLoading(true)
+        updateStock(prop.id, { stockIn: value }).then(res => {
+            if (res.error) {
+                setLoading(false)
+                ErrorToast(res.error.response.data);
+            } else {
+                SuccessfullToast("Updated")
+                setLoading(false)
+            }
+        })
+    }
     return (
         <Modal show={prop.show} onHide={prop.handleClose} bsSize="lg">
             <Modal.Header className="mdhead" closeButton >
@@ -26,12 +41,14 @@ const EditQuiz = (prop) => {
                                                     type="number"
                                                     placeholder="Enter Quantity"
                                                     className={"form-control"}
+                                                    name={'stockIn'}
+                                                    onChange={(e) => setValue(e.target.value)}
                                                 />
 
                                             </FormGroup>
                                         </Col>
                                         <Col md="5">
-                                            <Button type="submit" className="btn-fill" onClick={() => setLoading(true)} >
+                                            <Button type="button" className="btn-fill" onClick={() => onsubmit()} >
                                                 {loading ? <div><span>loading...</span><i className="fa fa-spin fa-spinner" /></div> : UPDATE_STOCK_BTN_NAME}
                                             </Button>
                                         </Col>

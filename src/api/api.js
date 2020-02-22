@@ -55,10 +55,27 @@ export const getAllCompanies = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/api/v1/getAllCompanies`)
         .then(res => res.data));
 }
-export const getStock = async () => {
-    return await resolve(axios.get(`${apiBaseUrl}/api/v1/getSearchItems`)
+
+export const getStock = async (params) => {
+    return await resolve(axios.get(`${apiBaseUrl}/api/v1/getSearchItems?name=${params.name}&barcode=${params.barcode}&limit=${params.limit}&page=${params.page}`)
         .then(res => res.data));
 }
+export const getSale = async (barcode) => {
+    return await resolve(axios.get(`${apiBaseUrl}/api/v1/fetch?barcode=${barcode}`)
+        .then(res => res.data));
+}
+//--------------------------------PUT--------------------------//
+export const updateSeller = async (id, data) => {
+    return await resolve(axios.put(`${apiBaseUrl}/api/v1/updateSeller/${id}`, data)
+        .then(res => res.data));
+}
+export const updateStock = async (id, data) => {
+    return await resolve(axios.put(`${apiBaseUrl}/api/v1/updateStock/${id}`, data)
+        .then(res => res.data));
+}
+
+
+
 
 
 

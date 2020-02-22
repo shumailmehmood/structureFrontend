@@ -10,83 +10,136 @@ const ViewStock = (props) => {
     const [update, setUpdate] = useState(false)
     const [seller, setSeller] = useState(false)
     const [dataDB, setDataDB] = useState([]);
-    const [metaData,setMetaData]=useState({})
+    const [metaData, setMetaData] = useState({})
+    const [sellerData, setSellerData] = useState({})
+    const [loading, setLoading] = useState(false)
+    const [id, setId] = useState('')
     useEffect(() => {
-        getStock().then(res => {
+        get();
+    }, []);
+    const get = (state) => {
+        setLoading(true)
+        let newParams = {
+            page: state ? state.page + 1 : 1,
+            limit: state ? state.pageSize : 10,
+            name: '',
+            barcode: ''
+        }
+        if (state) {
+            state.filtered.forEach(element => {
+                newParams[element.id] = element.value
+            })
+        }      
+        getStock(newParams).then(res => {
             if (res.error) { } else {
                 setDataDB(res.data.data)
+                setMetaData(res.data.metadata[0])
+                setLoading(false)
             }
         })
-    }, []);
-    
-    let data = [{
-        barcode: "123",
-        name: "Lipton",
-        quantity: <MiniTableButton text="10" handleClick={() => setUpdate(true)} />,
-        pPrice: "100",
-        sPrice: "100",
-        category: "Tea",
-        company: "Unilever",
-        seller: <MiniTableButton text="Sadiq" handleClick={() => setSeller(true)} />
-    }];
+    }
+
+    let data = dataDB.length ?
+        dataDB.map((element, index) => {
+            return {
+                barcode: element.barcode,
+                name: element.name,
+                quantity: <MiniTableButton style={element.endingLimit} text={element.stockIn} handleClick={() => {
+                    setId(element._id)
+                    setUpdate(true)
+                }} />,
+                pPrice: element.purchasePrice,
+                sPrice: element.salePrice,
+                category: element.category.name,
+                company: element.company.name,
+                seller: <MiniTableButton text={element.seller.name} handleClick={() => {
+                    setSellerData(element.seller)
+                    setSeller(true)
+                }} />
+            }
+        })
+
+        : []
     const columns = [
         {
             Header: "Barcode",
             accessor: "barcode",
             sortable: false,
-            filterable: true
+            filterable: true,
+            
         },
         {
             Header: "Name",
             accessor: "name",
-            sortable: false
+            sortable: false,
+            filterable: true
         },
         {
             Header: "Quantity",
             accessor: "quantity",
             id: "quantity",
-            sortable: false
+            sortable: false,
+            filterable: false
         },
         {
             Header: "Purchase Price",
             accessor: "pPrice",
-            sortable: false
+            sortable: false,
+            filterable: false
         },
         {
             Header: "Sale Price",
             accessor: "sPrice",
-            sortable: false
+            sortable: false,
+            filterable: false
         },
         {
             Header: "Category",
             accessor: "category",
-            sortable: false
+            sortable: false,
+            filterable: false
         },
         {
             Header: "Company",
             accessor: "company",
-            sortable: false
+            sortable: false,
+            filterable: false
         },
         {
             Header: "Seller",
             accessor: "seller",
             id: "seller",
-            sortable: false
+            sortable: false,
+            filterable: false
         }
     ]
     return (
         <div>
-            <SellerDetails show={seller} handleClose={() => setSeller(false)} />
-            <QuantityUpdate show={update} handleClose={() => setUpdate(false)} />
+            <SellerDetails get={get} seller={sellerData} show={seller} handleClose={() => setSeller(false)} />
+            <QuantityUpdate id={id} show={update} handleClose={() => setUpdate(false)} />
             <Card
                 content={
+                    // <ReactTable
+                    //     data={data}
+                    //     columns={columns}
+                    //     loading={false}
+                    //     className="-striped -highlight"
+                    //     defaultPageSize={10}
+                    // />
                     <ReactTable
-                        data={data}
+                        data={data}                       
                         columns={columns}
-                        loading={false}
-                        className="-striped -highlight"
+                        manual
                         defaultPageSize={10}
+                        onFetchData={get}
+                        showPaginationBottom
+                        showPaginationTop={false}
+                        pages={metaData ? metaData.pages : 1}
+                        loading={loading}
+                        sortable={false}
+                        className="-striped -highlight"
                     />
+
 
                 } />
         </div>
