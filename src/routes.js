@@ -9,6 +9,7 @@ import Registeration from "./views/Registeration/Registeration"
 // import ViewQuiz from './components/ViewQuiz/ViewQuiz';
 import Pos from "./views/POS/POS"
 import ViewStock from "./views/ViewStock/ViewStock"
+import Sale from './views/Sale/Sale'
 var dashboardRoutes = [
   // {
   //   path: "/UserStatsView",
@@ -52,18 +53,25 @@ var dashboardRoutes = [
     icon: "pe-7s-add-user"
   },
   {
+    path: "/dSale",
+    layout: "/admin",
+    name: "Daily Sale",
+    component: Sale,
+    icon: "pe-7s-paperclip"
+  },
+  {
     path: "/pos",
     layout: "/admin",
     name: "Point of Sale Screen",
     component: Pos,
-    icon: "pe-7s-add-user"
+    icon: "pe-7s-notebook"
   },
   {
     path: "/stock",
     layout: "/admin",
     name: "View Stock",
     component: ViewStock,
-    icon: "pe-7s-add-user"
+    icon: "pe-7s-news-paper"
   }
 
   

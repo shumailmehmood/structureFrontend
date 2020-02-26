@@ -22,7 +22,7 @@ class HeaderLinks extends Component {
     return (
       <div>
       <Nav pullRight>
-        <NavItem
+        {/* <NavItem
           eventKey={3}
           href="/"
           onClick={() => {localStorage.clear()}}
@@ -30,7 +30,7 @@ class HeaderLinks extends Component {
           <div className="text-danger" style={{ marginTop: 14 }}>
             <i className="pe-7s-close-circle" /> Log out
             </div>
-        </NavItem>
+        </NavItem> */}
       
       </Nav>
       

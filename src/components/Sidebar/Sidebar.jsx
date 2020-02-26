@@ -230,11 +230,11 @@ class Sidebar extends Component {
               </a>
               <Collapse in={this.state.openAvatar}>
                 <ul className="nav">             
-                  <li onClick={() => {localStorage.clear(); window.location.reload();}}>
+                  {/* <li onClick={() => {localStorage.clear(); window.location.reload();}}>
                     <a>
                       <span className="sidebar-normal"><i className="fa fa-sign-out" />Log Out</span>
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
               </Collapse>
             </div>

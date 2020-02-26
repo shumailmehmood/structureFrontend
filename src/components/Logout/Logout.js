@@ -8,6 +8,6 @@ function Logout() {
         setAuthTokens();
     }
   
-    return <span onClick={logout}>Log out</span>
+    // return <span onClick={logout}>Log out</span>
 }
 export default Logout; 

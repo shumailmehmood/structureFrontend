@@ -26,7 +26,7 @@ function CompanyRegisteration(props) {
                 console.log(res)
                 ErrorToast(res.error.response.data);
             } else {
-                SuccessfullToast(REG_SUCCESS)
+                SuccessfullToast(REG_SUCCESS)                
                 setLoading(false)
             }
         })

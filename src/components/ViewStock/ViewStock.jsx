@@ -115,17 +115,11 @@ const ViewStock = (props) => {
     ]
     return (
         <div>
+            {console.log("Honto::",data)}
             <SellerDetails get={get} seller={sellerData} show={seller} handleClose={() => setSeller(false)} />
             <QuantityUpdate id={id} show={update} handleClose={() => setUpdate(false)} />
             <Card
-                content={
-                    // <ReactTable
-                    //     data={data}
-                    //     columns={columns}
-                    //     loading={false}
-                    //     className="-striped -highlight"
-                    //     defaultPageSize={10}
-                    // />
+                content={                    
                     <ReactTable
                         data={data}                       
                         columns={columns}
