@@ -193,7 +193,7 @@ class RegularForms extends Component {
                             label="Checked"
                           />
                           <Radio
-                            number="6"
+                            number={6}
                             option="2"
                             name="radio"
                             onChange={this.handleRadio}

@@ -27,15 +27,15 @@ const EditQuiz = (prop) => {
             </Modal.Header>
             <Modal.Body>
                 <Row>
-                    <Col md="1"></Col>
-                    <Col md="10">
+                    <Col md={1}></Col>
+                    <Col md={10}>
                         <Row>
                             <Card
                                 content={
                                     <Row>
-                                        <Col md="1">
+                                        <Col md={1}>
                                         </Col>
-                                        <Col md="5">
+                                        <Col md={5}>
                                             <FormGroup>
                                                 <input
                                                     type="number"
@@ -47,12 +47,12 @@ const EditQuiz = (prop) => {
 
                                             </FormGroup>
                                         </Col>
-                                        <Col md="5">
+                                        <Col md={5}>
                                             <Button type="button" className="btn-fill" onClick={() => onsubmit()} >
                                                 {loading ? <div><span>loading...</span><i className="fa fa-spin fa-spinner" /></div> : UPDATE_STOCK_BTN_NAME}
                                             </Button>
                                         </Col>
-                                        <Col md="1">
+                                        <Col md={1}>
 
                                         </Col>
                                     </Row>
@@ -60,7 +60,7 @@ const EditQuiz = (prop) => {
                             />
                         </Row>
                     </Col>
-                    <Col md="1"></Col>
+                    <Col md={1}></Col>
 
                 </Row>
             </Modal.Body>

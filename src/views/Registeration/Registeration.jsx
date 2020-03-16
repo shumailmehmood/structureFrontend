@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Col,
     Row,
@@ -8,46 +8,78 @@ import Category from '../../components/CategoryRegisteration/CategoryRegisterati
 import Company from '../../components/CompanyRegisteration/CompanyReg'
 import Seller from '../../components/SellerRegisteration/SellerRegisteration'
 import Item from '../../components/ItemRegisterationForm/ItemRegisterationForm'
+import _ from 'lodash'
+import { getAllCategories, getAllCompanies, getAllSellers } from "../../api/api"
 
 function Registeration(props) {
+    const [comp, setComp] = useState([]);
+    const [seller, setSeller] = useState([]);
+    const [categ, setCateg] = useState([]);
+    const getCategory = () => {
+        getAllCategories().then(res => {
+            if (res.error) { } else {
+                setCateg(_.chain(res.data).map(({ name, _id }) => name = { value: _id, label: name }).value())
+            }
+        })
+    }
+    const getCompany = () => {
+        getAllCompanies().then(res => {
+            if (res.error) { } else {
+                setComp(_.chain(res.data).map(({ name, _id }) => name = { value: _id, label: name }).value())
+            }
+        })
+    }
+    const getSeller = () => {
+        getAllSellers().then(res => {
+            if (res.error) { } else {
+                setSeller(_.chain(res.data).map(({ name, _id }) => name = { value: _id, label: name }).value())
+            }
+        })
+    }
+    // seller=React.useMemo(()=>getSeller(),[seller])
+    useEffect(() => {
+        getCategory();
+        getCompany();
+        getSeller();
+    }, [])
     return (
         <div>
             <Row>
-                <Col md="6">
+                <Col md={6}>
                     <Card
                         content={
-                            <Item/>
+                            <Item seller={seller ? seller : []} category={categ ? categ : []} company={comp ? comp : []} />
                         }
                     />
 
                 </Col>
-                <Col md="6">
+                <Col md={6}>
                     <Row>
-                        <Col md="1"></Col>
-                        <Col md="10"> <Card
+                        <Col md={1}></Col>
+                        <Col md={10}> <Card
                             content={
-                                <Category />
+                                <Category data={categ} get={getCategory} />
                             }
                         /></Col>
-                        <Col md="1"></Col>
+                        <Col md={1}></Col>
                     </Row>
                     <Row>
-                        <Col md="1"></Col>
-                        <Col md="10"> <Card
+                        <Col md={1}></Col>
+                        <Col md={10}> <Card
                             content={
-                                <Company />
+                                <Company data={comp} get={getCompany} />
                             }
                         /></Col>
-                        <Col md="1"></Col>
+                        <Col md={1}></Col>
                     </Row>
                     <Row>
-                        <Col md="1"></Col>
-                        <Col md="10"> <Card
+                        <Col md={1}></Col>
+                        <Col md={10}> <Card
                             content={
-                                <Seller />
+                                <Seller data={seller} get={getSeller} />
                             }
                         /></Col>
-                        <Col md="1"></Col>
+                        <Col md={1}></Col>
                     </Row>
                 </Col>
             </Row>

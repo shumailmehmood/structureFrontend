@@ -4,7 +4,7 @@ import DailySale from '../../components/Sale/Sale'
 const Sale = (props) => {
     return (<Row>
         
-        <Col md="12">
+        <Col md={12}>
             <DailySale/>
         </Col>
         

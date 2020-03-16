@@ -14,7 +14,7 @@ const ViewStock = (props) => {
 
             <Row>
 
-                <Col md="12">
+                <Col md={12}>
                     <ViewStocks />
                 </Col>
 
