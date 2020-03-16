@@ -16,7 +16,7 @@ function CompanyRegisteration(props) {
     const {
         register,
         handleSubmit,
-        formState: { dirty },
+
     } = useForm();
     const onSubmit = (data) => {
         console.log(data)

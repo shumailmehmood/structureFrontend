@@ -9,14 +9,13 @@ import { getDailySale } from "../../api/api"
 
 import Items from "../Modals/SearchBarCode";
 const Sale = (props) => {
-    const [update, setUpdate] = useState(false)
+   
     const [items, setItems] = useState(false)
     const [dataDB, setDataDB] = useState([]);
     const [metaData, setMetaData] = useState({})
     const [itemsData, setItemsData] = useState([])
     const [loading, setLoading] = useState(false)
-    const [id, setId] = useState('')
-    const[time,setTime]=useState({time:new Date().toISOString()});
+    const [time, setTime] = useState({ time: new Date().toISOString() });
 
 
     useEffect(() => {
@@ -31,7 +30,7 @@ const Sale = (props) => {
         let newParams = {
             page: state ? state.page + 1 : 1,
             limit: state ? state.pageSize : 10,
-            date:time.time,
+            date: time.time,
             name: '',
             barcode: '',
             orderNo: ''
@@ -45,7 +44,6 @@ const Sale = (props) => {
             if (res.error) { } else {
                 setDataDB(res.data.data)
                 setMetaData(res.data.metadata[0])
-                console.log(res.data.data)
                 setLoading(false)
             }
         })
@@ -123,21 +121,21 @@ const Sale = (props) => {
     return (<div>
         <Items data={itemsData} show={items} handleClose={() => setItems(false)} />
         <Row>
-            <Col md="1"></Col>
-            <Col md="10">
-            <Card
-                content={
-                <Datetime
-                    inputProps={{ placeholder: "Datetime Picker Here" }}
-                    defaultValue={new Date()}
-                    onChange={(e) =>{                        
-                    setTime({time:e.toISOString()})
-                        
-                    }}
-                />
-                }/>
-                </Col>
-            <Col md="1"></Col>
+            <Col md={2}></Col>
+            <Col md={10}>
+                <Card
+                    content={
+                        <Datetime
+                            inputProps={{ placeholder: "Datetime Picker Here" }}
+                            defaultValue={new Date()}
+                            onChange={(e) => {
+                                setTime({ time: e.toISOString() })
+
+                            }}
+                        />
+                    } />
+            </Col>
+            <Col md={1}></Col>
         </Row>
         <Row>
             <Card

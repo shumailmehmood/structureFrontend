@@ -178,7 +178,7 @@ function CreateQuizForm(prop) {
                                         {/* <Col md={4}>
                                             <Radio
                                                 number="14"
-                                                option="2"
+                                                option={2}
                                                 name="radio"
                                                 defaultChecked={true}
                                                 label="Multiple Choice"

@@ -3,44 +3,29 @@ import {
     FormGroup, ControlLabel
 } from "react-bootstrap";
 import Button from "components/CustomButton/CustomButton.jsx";
-import { useForm } from 'react-hook-form';
-import _ from 'lodash'
+import  {useForm}  from 'react-hook-form';
 import "../../assets/css/light-bootstrap-dashboard-pro-react.css"
 import Select from 'react-select';
-import { REG_BTN_NAME,REG_SUCCESS} from "../../misc/constants";
-import {SuccessfullToast,ErrorToast} from "../../misc/helper"
-import { getAllCategories, getAllCompanies, getAllSellers, createItem } from "../../api/api"
+import { REG_BTN_NAME, REG_SUCCESS } from "../../misc/constants";
+import { SuccessfullToast, ErrorToast } from "../../misc/helper"
+import { createItem } from "../../api/api"
 function SellerRegisteration(props) {
     const [loading, setLoading] = useState(false)
-    const [comp, setComp] = useState([]);
-    const [seller, setSeller] = useState([]);
-    const [categ, setCateg] = useState([]);
+    const [comp, setComp] = useState(props.company?props.company:[]);
+    
+    
+    const [seller, setSeller] = useState(props.seller?props.seller:[]);
+    const [categ, setCateg] = useState(props.category?props.category:[]);
     const [valueComp, setValueComp] = useState('')
     const [valueCateg, setValueCateg] = useState('')
     const [valueSeller, setValueSeller] = useState('')
     const {
         register,
         handleSubmit,
-        formState: { dirty },
     } = useForm();
-    useEffect(() => {
-        getAllCategories().then(res => {
-            if (res.error) { } else {
-                setCateg(_.chain(res.data).map(({ name, _id }) => name = { value: _id, label: name }).value())
-            }
-        })
-        getAllCompanies().then(res => {
-            if (res.error) { } else {
-                setComp(_.chain(res.data).map(({ name, _id }) => name = { value: _id, label: name }).value())
-            }
-        })
-        getAllSellers().then(res => {
-            if (res.error) { } else {
-                setSeller(_.chain(res.data).map(({ name, _id }) => name = { value: _id, label: name }).value())
-            }
-        })
-    }, [])
-    const onSubmit = (data) => {
+   
+    const onSubmitData = (data) => {
+        setLoading(true)
         data.salePrice = +data.salePrice;
         data.purchasePrice = +data.purchasePrice;
         data.stockIn = +data.stockIn;
@@ -55,13 +40,14 @@ function SellerRegisteration(props) {
             } else {
                 SuccessfullToast(REG_SUCCESS)
                 setLoading(false)
+                props.get();
             }
         })
 
     };
     return (
         <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmitData)}>
                 <ControlLabel><b>Item's Registeration</b></ControlLabel>
                 <FormGroup>
                     <input
@@ -135,7 +121,7 @@ function SellerRegisteration(props) {
                         options={seller}
                     />
                 </FormGroup>
-                <Button type="submit" className="btn-fill" onClick={() => setLoading(true)} >
+                <Button type="submit" className="btn-fill"  >
                     {loading ? <div><span>loading...</span><i className="fa fa-spin fa-spinner" /></div> : REG_BTN_NAME}
                 </Button>
             </form>

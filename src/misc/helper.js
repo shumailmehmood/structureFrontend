@@ -1,5 +1,4 @@
 import { toast } from 'react-toastify';
-import _ from 'lodash'
 import { OneDigitNumber, TwoDigitNumber, ThreeDigitNumber } from './constants';
 export const SuccessfullToast = (info) => {
     toast.success(info, {

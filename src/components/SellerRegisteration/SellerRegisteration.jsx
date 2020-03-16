@@ -12,8 +12,7 @@ function SellerRegisteration(props) {
     const [loading, setLoading] = useState(false)
     const {
         register,
-        handleSubmit,
-        formState: { dirty },
+        handleSubmit,        
     } = useForm();
     const onSubmit = (data) => {
         createSeller(data).then(res => {

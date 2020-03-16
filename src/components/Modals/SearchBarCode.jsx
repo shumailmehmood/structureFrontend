@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
-import { Col, Row, Modal, FormGroup } from "react-bootstrap";
+import { Col, Row, Modal} from "react-bootstrap";
 import Card from '../Card/Card';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import Select from 'react-select';
-import MiniTableButton from "../MiniTableButton/MiniTableButton"
 import QuantityUpdate from "./ReturnQuantity"
 const EditQuiz = (prop) => {
-    const[obj,setObj]=useState({})
+    const[obj]=useState({})
     const[view,setView]=useState(false)
 
-    const {data}=prop;
-    // let data = [];
-    console.log(data);
+    const {data}=prop; 
 
     let record = data ? data.map((element) => {
         return {
@@ -60,7 +56,7 @@ const EditQuiz = (prop) => {
             </Modal.Header>
             <Modal.Body>
                 <Row>
-                    <Col md="12">
+                    <Col md={12}>
 
                         <Row>
                             <Card

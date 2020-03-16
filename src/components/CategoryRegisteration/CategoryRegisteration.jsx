@@ -14,7 +14,6 @@ function CategoryRegisteration(props) {
     const {
         register,
         handleSubmit,
-        formState: { dirty },
     } = useForm();
     const onSubmit = (data) => {
         createCategory(data).then(res => {
@@ -24,6 +23,7 @@ function CategoryRegisteration(props) {
             } else {
                 SuccessfullToast(REG_SUCCESS)
                 setLoading(false)
+                props.get();
             }
         })
     };

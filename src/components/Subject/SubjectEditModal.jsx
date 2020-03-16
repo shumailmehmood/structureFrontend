@@ -150,7 +150,7 @@ const SubjectEditModal = (props) => {
                                     <Modal.Body>
                                     <Row>
                                        <Col md={3}>
-                                       <label htmlFor="subjectName" style={{ color: '#87cb16'  ,marginTop: "5"}}>Subject    </label>
+                                       <label htmlFor="subjectName" style={{ color: '#87cb16'  ,marginTop: {5}}}>Subject    </label>
                                             <ControlLabel>{props.doc.name}</ControlLabel>
                                             <input
                                                 name="subjectName"

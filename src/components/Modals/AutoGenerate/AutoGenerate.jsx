@@ -49,19 +49,19 @@ const AutoGenerate = (prop) => {
                         content={
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <Row>
-                                    <Col md="4">
+                                    <Col md={5}>
                                         <FormGroup>
                                             <input type="number" name="nofDigits" placeholder="Enter Number of Digits" ref={register({ required: true, min: 1, max: 3 })} />
                                             {errors.nofDigits && <p style={{ fontSize: '11px', lineHeight: '1.5', color: 'red' }}>Your input required to be more than 1 and less than 3</p>}
                                         </FormGroup>
                                     </Col>
-                                    <Col md="4">
+                                    <Col md={5}>
                                         <FormGroup>
                                             <input type="number" name="nofQuestion" placeholder="Enter Number of Questions" ref={register({ required: true, min: 1, max: 10 - prop.dbData.length })} />
                                             {errors.nofQuestion && <p style={{ fontSize: '11px', lineHeight: '1.5', color: 'red' }}>Your input required to be more than 1 and less than {10 - prop.dbData.length}</p>}
                                         </FormGroup>
                                     </Col>
-                                    <Col md="4"> <Button type="submit" className='btn-fill btn-wd btn btn-warning'>
+                                    <Col md={5}> <Button type="submit" className='btn-fill btn-wd btn btn-warning'>
                                         Generate Question
                                 </Button></Col>
                                 </Row>
