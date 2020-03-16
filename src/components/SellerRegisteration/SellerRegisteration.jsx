@@ -5,24 +5,24 @@ import {
 import Button from "components/CustomButton/CustomButton.jsx";
 import { useForm } from 'react-hook-form';
 import "../../assets/css/light-bootstrap-dashboard-pro-react.css"
-import { REG_BTN_NAME,REG_SUCCESS } from "../../misc/constants";
+import { REG_BTN_NAME, REG_SUCCESS } from "../../misc/constants";
 import { createSeller } from "../../api/api"
 import { SuccessfullToast, ErrorToast } from "../../misc/helper"
 function SellerRegisteration(props) {
     const [loading, setLoading] = useState(false)
     const {
         register,
-        handleSubmit,        
+        handleSubmit,
     } = useForm();
     const onSubmit = (data) => {
         createSeller(data).then(res => {
             if (res.error) {
                 setLoading(false)
-                console.log(res)
                 ErrorToast(res.error.response.data);
             } else {
                 SuccessfullToast(REG_SUCCESS)
                 setLoading(false)
+                props.get()
             }
         })
     };
@@ -57,7 +57,7 @@ function SellerRegisteration(props) {
                         placeholder="Enter Phone"
                     />
                 </FormGroup>
-                
+
                 <Button type="submit" className="btn-fill" onClick={() => setLoading(true)} >
                     {loading ? <div><span>loading...</span><i className="fa fa-spin fa-spinner" /></div> : REG_BTN_NAME}
                 </Button>

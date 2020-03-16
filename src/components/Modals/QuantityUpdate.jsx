@@ -17,6 +17,7 @@ const EditQuiz = (prop) => {
             } else {
                 SuccessfullToast("Updated")
                 setLoading(false)
+                prop.get()
             }
         })
     }

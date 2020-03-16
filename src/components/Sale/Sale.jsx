@@ -9,14 +9,14 @@ import { getDailySale } from "../../api/api"
 
 import Items from "../Modals/SearchBarCode";
 const Sale = (props) => {
-   
+
     const [items, setItems] = useState(false)
     const [dataDB, setDataDB] = useState([]);
     const [metaData, setMetaData] = useState({})
     const [itemsData, setItemsData] = useState([])
     const [loading, setLoading] = useState(false)
     const [time, setTime] = useState({ time: new Date().toISOString() });
-
+    const [open, setOpen] = useState(false)
 
     useEffect(() => {
         get();
@@ -26,7 +26,6 @@ const Sale = (props) => {
     }, [time]);
     const get = (state) => {
         setLoading(true)
-
         let newParams = {
             page: state ? state.page + 1 : 1,
             limit: state ? state.pageSize : 10,
@@ -129,9 +128,12 @@ const Sale = (props) => {
                             inputProps={{ placeholder: "Datetime Picker Here" }}
                             defaultValue={new Date()}
                             onChange={(e) => {
+                                
                                 setTime({ time: e.toISOString() })
-
+                                setOpen(false)
                             }}
+                            onFocus={() => setOpen(true)}
+                            open={open}
                         />
                     } />
             </Col>

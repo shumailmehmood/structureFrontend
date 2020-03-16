@@ -4,7 +4,8 @@ import resolve from './resolve';
 require('dotenv').config()
 
 // let apiBaseUrl = 'http://loca';
-let apiBaseUrl = process.env.URL || 'http://localhost:4001';
+let URL="https://pos-react.herokuapp.com"
+let apiBaseUrl = URL || 'http://localhost:4000';
 
 export const testAuth = async () => {
     return await resolve(axios.get(`${apiBaseUrl}/profile`).then(res => res.data));

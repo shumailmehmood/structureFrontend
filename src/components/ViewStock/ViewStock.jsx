@@ -117,7 +117,7 @@ const ViewStock = (props) => {
         <div>
 
             <SellerDetails get={get} seller={sellerData} show={seller} handleClose={() => setSeller(false)} />
-            <QuantityUpdate id={id} show={update} handleClose={() => setUpdate(false)} />
+            <QuantityUpdate get={get} id={id} show={update} handleClose={() => setUpdate(false)} />
             <Card
                 content={                    
                     <ReactTable

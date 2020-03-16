@@ -22,12 +22,12 @@ function CompanyRegisteration(props) {
         console.log(data)
         createCompany(data).then(res => {
             if (res.error) {
-                setLoading(false)
-                console.log(res)
+                setLoading(false)                
                 ErrorToast(res.error.response.data);
             } else {
                 SuccessfullToast(REG_SUCCESS)                
                 setLoading(false)
+                props.get();
             }
         })
     };

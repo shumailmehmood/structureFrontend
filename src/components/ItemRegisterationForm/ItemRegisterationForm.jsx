@@ -3,7 +3,7 @@ import {
     FormGroup, ControlLabel
 } from "react-bootstrap";
 import Button from "components/CustomButton/CustomButton.jsx";
-import  {useForm}  from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import "../../assets/css/light-bootstrap-dashboard-pro-react.css"
 import Select from 'react-select';
 import { REG_BTN_NAME, REG_SUCCESS } from "../../misc/constants";
@@ -11,11 +11,6 @@ import { SuccessfullToast, ErrorToast } from "../../misc/helper"
 import { createItem } from "../../api/api"
 function SellerRegisteration(props) {
     const [loading, setLoading] = useState(false)
-    const [comp, setComp] = useState(props.company?props.company:[]);
-    
-    
-    const [seller, setSeller] = useState(props.seller?props.seller:[]);
-    const [categ, setCateg] = useState(props.category?props.category:[]);
     const [valueComp, setValueComp] = useState('')
     const [valueCateg, setValueCateg] = useState('')
     const [valueSeller, setValueSeller] = useState('')
@@ -23,7 +18,6 @@ function SellerRegisteration(props) {
         register,
         handleSubmit,
     } = useForm();
-   
     const onSubmitData = (data) => {
         setLoading(true)
         data.salePrice = +data.salePrice;
@@ -35,12 +29,10 @@ function SellerRegisteration(props) {
         createItem(data).then(res => {
             if (res.error) {
                 setLoading(false)
-                console.log(res)
                 ErrorToast(res.error.response.data);
             } else {
                 SuccessfullToast(REG_SUCCESS)
                 setLoading(false)
-                props.get();
             }
         })
 
@@ -100,7 +92,7 @@ function SellerRegisteration(props) {
                         placeholder="Select Company"
                         onChange={(e) => setValueComp(e.value)}
                         // value={value2}
-                        options={comp}
+                        options={props.company}
                     />
                 </FormGroup>
                 <FormGroup>
@@ -109,7 +101,7 @@ function SellerRegisteration(props) {
                         placeholder="Select Category"
                         onChange={(e) => setValueCateg(e.value)}
                         // value={value2}
-                        options={categ}
+                        options={props.category}
                     />
                 </FormGroup>
                 <FormGroup>
@@ -118,7 +110,7 @@ function SellerRegisteration(props) {
                         placeholder="Select Seller"
                         onChange={(e) => setValueSeller(e.value)}
                         // value={value2}
-                        options={seller}
+                        options={props.seller}
                     />
                 </FormGroup>
                 <Button type="submit" className="btn-fill"  >

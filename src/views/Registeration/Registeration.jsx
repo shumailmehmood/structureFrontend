@@ -42,6 +42,8 @@ function Registeration(props) {
         getCompany();
         getSeller();
     }, [])
+    useEffect(() => { }, [seller, categ, comp])
+
     return (
         <div>
             <Row>

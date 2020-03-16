@@ -6,7 +6,7 @@ import { UPDATE_STOCK_BTN_NAME } from "../../misc/constants";
 import { updateStockDel } from "../../api/api"
 import { ErrorToast, SuccessfullToast } from "../../misc/helper"
 
-const updateStockOnDel=(obj)=>{
+const updateStockOnDel = (obj) => {
     updateStockDel(obj).then(res => {
         return res;
     })
@@ -16,17 +16,17 @@ const EditQuiz = (prop) => {
     const [value, setValue] = useState(0)
     onsubmit = () => {
         setLoading(true)
-        let obj=prop.obj;
-        obj.stockIn=value;
-       let res= updateStockOnDel(obj);
-       if (res.error) {
-        setLoading(false)
-        ErrorToast(res.error.response.data);
-    } else {
-        SuccessfullToast("Updated")
-        setLoading(false)
-        // defaultProps
-    }
+        let obj = prop.obj;
+        obj.stockIn = value;
+        let res = updateStockOnDel(obj);
+        if (res) {
+            setLoading(false)
+            ErrorToast(res.error.response.data);
+        } else {
+            SuccessfullToast("Updated")
+            setLoading(false)
+            
+        }
     }
     return (
         <Modal show={prop.show} onHide={prop.handleClose} bsSize="lg">
@@ -46,7 +46,7 @@ const EditQuiz = (prop) => {
                                         <Col md={5}>
                                             <FormGroup>
                                                 <input
-                                                
+
                                                     type="number"
                                                     placeholder="Enter Quantity"
                                                     className={"form-control"}

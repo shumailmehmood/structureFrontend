@@ -13,6 +13,12 @@ import { getSale, getOrderNo, createSale, updateStockDel } from "../../api/api"
 import { ErrorToast } from "../../misc/helper"
 import { debounce } from 'lodash'
 // const Pos = (props) => {
+const del = (obj) => {
+    updateStockDel(obj).then(res => {
+        return res;
+    })
+}
+
 class Pos extends React.Component {
     state = {
         open: false,
@@ -87,6 +93,7 @@ class Pos extends React.Component {
                 ErrorToast(res.error.response.data);
             } else {
                 let returnData = res.data;
+                if (!returnData) return false;
                 let obj = {
                     barcode: returnData.barcode,
                     name: returnData.name,
@@ -98,7 +105,6 @@ class Pos extends React.Component {
                     sellerId: returnData.sellerId,
                     categoryId: returnData.categoryId
                 }
-                // console.log("Obj", obj);
                 if (this.state.data.length === 0) {
                     let state = this.state.data;
                     state.push(obj);
@@ -117,10 +123,12 @@ class Pos extends React.Component {
         let { data } = this.state;
         let array = data;
         for (let i = 0; i < array.length; i++) {
-            // console.log(this.state.data[i], obj.barcode)
             if (Object.values(array[i]).indexOf(element.barcode) > -1) {
-                array.splice(i, 1);
-                this.setState({ data: array })
+                let deleted = array.splice(i, 1);
+                // let deducted=       
+                deleted = deleted[0].amount;
+                this.setState({ data: array, subtotal: this.state.subtotal - deleted, grandTotal: this.state.subtotal - deleted })
+                // subtotal
                 break
             }
         }
@@ -128,13 +136,13 @@ class Pos extends React.Component {
             barcode: element.barcode,
             stockIn: element.quantity
         }
-        updateStockDel(obj).then(res => {
-            if (res.error) {
-                ErrorToast(res.error.response.data);
-            } else {
+        const res = del(obj)
+        if (res) {
+            ErrorToast(res.error.response.data);
+        } else {
 
-            }
-        })
+        }
+
 
     }
 
@@ -154,7 +162,6 @@ class Pos extends React.Component {
         let found = false;
 
         for (let i = 0; i < this.state.data.length; i++) {
-            // console.log(this.state.data[i], obj.barcode)
             if (Object.values(this.state.data[i]).indexOf(obj.barcode) > -1) {
                 let array = this.state.data;
                 let obj = array[i];
@@ -182,14 +189,6 @@ class Pos extends React.Component {
 
         let record = this.state.data.length ?
             this.state.data.map((returnData) => {
-                // return {
-                //     barcode: e.barcode,
-                //     name: e.name,
-                //     quantity: e.quantity,
-                //     salePrice: e.salePrice,
-                //     amount: e.amount
-                // }
-                // console.log("Obloj1", returnData)
                 return {
                     barcode: returnData.barcode,
                     name: returnData.name,
@@ -271,9 +270,7 @@ class Pos extends React.Component {
 
                                         </Col>
                                         <Col md={6}>
-                                            {/* <Button type="button" onClick={() => this.setState({ open: true })} className="btn-fill"  >
-                                                {SEARCH_BARCODE_BTN_NAME}
-                                            </Button> */}
+
                                             <ControlLabel>Order Number</ControlLabel>
                                             <FormGroup>
                                                 <input
